@@ -5,7 +5,6 @@ __pycache__/
 .idea/
 
 # Generated files
-annotaated_sample.tif
 annotated_sample.tif
 metadata_dump.json
 tags.txt
@@ -13,11 +12,5 @@ keys.txt
 matches.txt
 context_keys.txt
 
-# Temporary scripts
-inspect_*.py
-check_*.py
-find_*.py
-save_*.py
-dump_*.py
-search_*.py
-read_*.py
+# Temporary Data
+temp_data/
