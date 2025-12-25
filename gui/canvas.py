@@ -1,15 +1,17 @@
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsLineItem, QGraphicsTextItem, QGraphicsItem
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsLineItem, QGraphicsTextItem, QGraphicsItem, QGraphicsPolygonItem
 from PySide6.QtCore import Qt, QPointF, QLineF
-from PySide6.QtGui import QPen, QColor, QFont, QPainter
+from PySide6.QtGui import QPen, QColor, QFont, QPainter, QPolygonF
 
 class MeasurementItem:
-    def __init__(self, line_item, text_item, start_point, end_point):
-        self.line_item = line_item
+    def __init__(self, graphics_item, text_item, data):
+        self.graphics_item = graphics_item
         self.text_item = text_item
-        self.start_point = start_point
-        self.end_point = end_point
+        self.data = data # Store points or other data
 
 class ImageCanvas(QGraphicsView):
+    MODE_MEASURE = 0
+    MODE_POLYGON = 1
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.scene = QGraphicsScene(self)
@@ -17,17 +19,68 @@ class ImageCanvas(QGraphicsView):
         self.setRenderHint(QPainter.Antialiasing)
         self.setDragMode(QGraphicsView.NoDrag) # Disable default drag to handle manually
         self.setCursor(Qt.CrossCursor)
+        self.setMouseTracking(True)
         
         self.pixmap_item = None
         self.pixel_scale = None # meters per pixel
         
+        self.mode = self.MODE_MEASURE
+        
+        # Line drawing state
         self.current_line = None
         self.drawing = False
-        self.panning = False
-        self.last_pan_pos = QPointF()
         self.start_pos = None
         
+        # Polygon drawing state
+        self.polygon_points = []
+        self.current_polygon_item = None
+        self.temp_line = None
+        
+        self.panning = False
+        self.last_pan_pos = QPointF()
+        
         self.measurements = []
+        
+        # Colors
+        self.colors = [
+            QColor("#FFFF00"), # Yellow
+            QColor("#00FFFF"), # Cyan
+            QColor("#FF00FF"), # Magenta
+            QColor("#00FF00"), # Lime
+            QColor("#FFA500"), # Orange
+            QColor("#FF0000"), # Red
+            QColor("#00BFFF"), # Deep Sky Blue
+            QColor("#FF69B4"), # Hot Pink
+        ]
+        self.color_index = 0
+
+    def get_next_color(self):
+        color = self.colors[self.color_index]
+        self.color_index = (self.color_index + 1) % len(self.colors)
+        return color
+        
+    def clear_measurements(self):
+        for m in self.measurements:
+            self.scene.removeItem(m.graphics_item)
+            self.scene.removeItem(m.text_item)
+        self.measurements = []
+        self.color_index = 0
+        self.scene.update()
+
+    def set_mode(self, mode):
+        self.mode = mode
+        # Reset any active drawing
+        self.drawing = False
+        self.polygon_points = []
+        if self.current_line:
+            self.scene.removeItem(self.current_line)
+            self.current_line = None
+        if self.current_polygon_item:
+            self.scene.removeItem(self.current_polygon_item)
+            self.current_polygon_item = None
+        if self.temp_line:
+            self.scene.removeItem(self.temp_line)
+            self.temp_line = None
 
     def set_image(self, pixmap):
         self.scene.clear()
@@ -41,17 +94,78 @@ class ImageCanvas(QGraphicsView):
 
     def mousePressEvent(self, event):
         if event.button() == Qt.RightButton:
-            # Start drawing line
-            self.drawing = True
-            pos = self.mapToScene(event.pos())
-            self.start_pos = pos
-            self.current_line = QGraphicsLineItem(QLineF(pos, pos))
-            pen = QPen(QColor("yellow"))
-            pen.setWidth(2)
-            # Make pen width constant regardless of zoom
-            pen.setCosmetic(True)
-            self.current_line.setPen(pen)
-            self.scene.addItem(self.current_line)
+            if self.mode == self.MODE_MEASURE:
+                if not self.drawing:
+                    # Start drawing line
+                    self.drawing = True
+                    pos = self.mapToScene(event.pos())
+                    self.start_pos = pos
+                    self.current_line = QGraphicsLineItem(QLineF(pos, pos))
+                    
+                    # Use current color (don't increment yet, only on finish)
+                    color = self.colors[self.color_index]
+                    pen = QPen(color)
+                    pen.setWidth(2)
+                    pen.setCosmetic(True)
+                    self.current_line.setPen(pen)
+                    self.scene.addItem(self.current_line)
+                else:
+                    # Finish drawing line
+                    self.drawing = False
+                    if self.current_line:
+                        end_pos = self.mapToScene(event.pos())
+                        
+                        # Calculate distance
+                        line = self.current_line.line()
+                        line.setP2(end_pos)
+                        self.current_line.setLine(line)
+                        
+                        length_px = line.length()
+                        
+                        text_content = f"{length_px:.1f} px"
+                        if self.pixel_scale:
+                            length_m = length_px * self.pixel_scale
+                            if length_m < 1e-6:
+                                text_content = f"{length_m * 1e9:.2f} nm"
+                            elif length_m < 1e-3:
+                                text_content = f"{length_m * 1e6:.2f} µm"
+                            else:
+                                text_content = f"{length_m * 1e3:.2f} mm"
+                        
+                        # Add text annotation
+                        text_item = QGraphicsTextItem(text_content)
+                        color = self.get_next_color() # Increment color after finishing
+                        text_item.setDefaultTextColor(color)
+                        font = QFont()
+                        font.setBold(True)
+                        font.setPointSize(10)
+                        text_item.setFont(font)
+                        text_item.setPos(end_pos)
+                        # Scale text to remain readable
+                        text_item.setScale(1.0 / self.transform().m11())
+                        self.scene.addItem(text_item)
+                        
+                        self.measurements.append(MeasurementItem(self.current_line, text_item, [self.start_pos, end_pos]))
+                        self.current_line = None
+            elif self.mode == self.MODE_POLYGON:
+                # Add point to polygon
+                pos = self.mapToScene(event.pos())
+                self.polygon_points.append(pos)
+                
+                # Update visual polygon
+                color = self.colors[self.color_index]
+                if not self.current_polygon_item:
+                    self.current_polygon_item = QGraphicsPolygonItem(QPolygonF(self.polygon_points))
+                    pen = QPen(color)
+                    pen.setWidth(2)
+                    pen.setCosmetic(True)
+                    self.current_polygon_item.setPen(pen)
+                    brush = QColor(color)
+                    brush.setAlpha(50)
+                    self.current_polygon_item.setBrush(brush)
+                    self.scene.addItem(self.current_polygon_item)
+                else:
+                    self.current_polygon_item.setPolygon(QPolygonF(self.polygon_points))
         elif event.button() == Qt.LeftButton:
             # Start panning
             self.panning = True
@@ -61,54 +175,91 @@ class ImageCanvas(QGraphicsView):
             super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
-        if self.drawing and self.current_line:
-            pos = self.mapToScene(event.pos())
+        pos = self.mapToScene(event.pos())
+        
+        if self.mode == self.MODE_MEASURE and self.drawing and self.current_line:
             line = self.current_line.line()
             line.setP2(pos)
             self.current_line.setLine(line)
-        elif self.panning:
+        elif self.mode == self.MODE_POLYGON and self.polygon_points:
+            # Draw temp line from last point to cursor
+            if not self.temp_line:
+                self.temp_line = QGraphicsLineItem(QLineF(self.polygon_points[-1], pos))
+                color = self.colors[self.color_index]
+                pen = QPen(color)
+                pen.setStyle(Qt.DashLine)
+                pen.setCosmetic(True)
+                self.temp_line.setPen(pen)
+                self.scene.addItem(self.temp_line)
+            else:
+                self.temp_line.setLine(QLineF(self.polygon_points[-1], pos))
+                
+        if self.panning:
             delta = event.pos() - self.last_pan_pos
             self.last_pan_pos = event.pos()
             self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - delta.x())
             self.verticalScrollBar().setValue(self.verticalScrollBar().value() - delta.y())
         else:
             super().mouseMoveEvent(event)
+            
+    def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.RightButton and self.mode == self.MODE_POLYGON:
+            self.finish_polygon()
+        else:
+            super().mouseDoubleClickEvent(event)
+
+    def finish_polygon(self):
+        if len(self.polygon_points) < 3:
+            return
+            
+        # Remove temp line
+        if self.temp_line:
+            self.scene.removeItem(self.temp_line)
+            self.temp_line = None
+            
+        # Calculate Area
+        poly = QPolygonF(self.polygon_points)
+        # Shoelace formula (QPolygonF doesn't have area() directly exposed in all bindings, but let's check or implement manually)
+        # Actually QPolygonF.boundingRect().width() * ... no, need real area.
+        # Implementation of shoelace:
+        area_px = 0.0
+        for i in range(len(self.polygon_points)):
+            j = (i + 1) % len(self.polygon_points)
+            area_px += self.polygon_points[i].x() * self.polygon_points[j].y()
+            area_px -= self.polygon_points[j].x() * self.polygon_points[i].y()
+        area_px = abs(area_px) / 2.0
+        
+        text_content = f"{area_px:.0f} px²"
+        if self.pixel_scale:
+            area_m2 = area_px * (self.pixel_scale ** 2)
+            if area_m2 < 1e-12:
+                text_content = f"{area_m2 * 1e18:.2f} nm²"
+            elif area_m2 < 1e-6:
+                text_content = f"{area_m2 * 1e12:.2f} µm²"
+            else:
+                text_content = f"{area_m2 * 1e6:.2f} mm²"
+        
+        # Add text annotation at center
+        center = poly.boundingRect().center()
+        text_item = QGraphicsTextItem(text_content)
+        color = self.get_next_color() # Increment color after finishing
+        text_item.setDefaultTextColor(color)
+        font = QFont()
+        font.setBold(True)
+        font.setPointSize(10)
+        text_item.setFont(font)
+        text_item.setPos(center)
+        text_item.setScale(1.0 / self.transform().m11())
+        self.scene.addItem(text_item)
+        
+        self.measurements.append(MeasurementItem(self.current_polygon_item, text_item, self.polygon_points))
+        
+        # Reset
+        self.polygon_points = []
+        self.current_polygon_item = None
 
     def mouseReleaseEvent(self, event):
-        if self.drawing and event.button() == Qt.RightButton:
-            self.drawing = False
-            if self.current_line:
-                end_pos = self.mapToScene(event.pos())
-                
-                # Calculate distance
-                line = self.current_line.line()
-                length_px = line.length()
-                
-                text_content = f"{length_px:.1f} px"
-                if self.pixel_scale:
-                    length_m = length_px * self.pixel_scale
-                    if length_m < 1e-6:
-                        text_content = f"{length_m * 1e9:.2f} nm"
-                    elif length_m < 1e-3:
-                        text_content = f"{length_m * 1e6:.2f} µm"
-                    else:
-                        text_content = f"{length_m * 1e3:.2f} mm"
-                
-                # Add text annotation
-                text_item = QGraphicsTextItem(text_content)
-                text_item.setDefaultTextColor(QColor("yellow"))
-                font = QFont()
-                font.setBold(True)
-                font.setPointSize(10)
-                text_item.setFont(font)
-                text_item.setPos(end_pos)
-                # Scale text to remain readable
-                text_item.setScale(1.0 / self.transform().m11())
-                self.scene.addItem(text_item)
-                
-                self.measurements.append(MeasurementItem(self.current_line, text_item, self.start_pos, end_pos))
-                self.current_line = None
-        elif self.panning and event.button() == Qt.LeftButton:
+        if self.panning and event.button() == Qt.LeftButton:
             self.panning = False
             self.setCursor(Qt.CrossCursor)
         else:

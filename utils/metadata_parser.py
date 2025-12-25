@@ -51,3 +51,59 @@ def get_pixel_scale(file_path):
         print(f"Error parsing metadata: {e}")
         
     return None
+
+def get_metadata_context(file_path):
+    """
+    Extracts context metadata (Tool, Voltage, Mag, etc.) from a TIFF file.
+    Returns a dictionary of key-value pairs.
+    """
+    context = {}
+    try:
+        with tifffile.TiffFile(file_path) as tif:
+            page = tif.pages[0]
+            if 34118 in page.tags:
+                data = page.tags[34118].value
+                if isinstance(data, dict):
+                    # Helper to safely get value from tuple/list or direct value
+                    def get_val(key):
+                        if key in data:
+                            val = data[key]
+                            if isinstance(val, (list, tuple)) and len(val) > 1:
+                                return val[1] # Usually ('Label', value, unit) or ('Label', value)
+                            return val
+                        return None
+
+                    # Tool Name
+                    context['Tool'] = get_val('sv_serial_number') or get_val('sv_instrument_id') or "Unknown"
+                    
+                    # Voltage (EHT)
+                    eht = get_val('ap_eht') or get_val('ap_voltage') or get_val('ap_highvoltage')
+                    if eht:
+                        context['EHT'] = f"{eht} kV"
+                    
+                    # Aperture
+                    aperture = get_val('ap_aperture_size') or get_val('dp_opt_aperture')
+                    if aperture:
+                        context['Aperture'] = f"{aperture}"
+                        
+                    # Working Distance
+                    wd = get_val('ap_wd') or get_val('ap_working_distance')
+                    if wd:
+                        # WD is usually in meters or mm, need to check unit if possible, assuming mm or m
+                        # Based on sample, it might be a float. Let's just store it as is for now.
+                        context['WD'] = f"{wd}"
+                        
+                    # Mag
+                    mag = get_val('ap_mag') or get_val('ap_magnification')
+                    if mag:
+                        context['Mag'] = f"{mag} x"
+                        
+                    # Author
+                    author = get_val('sv_user_name') or get_val('sv_operator')
+                    if author:
+                        context['Author'] = author
+
+    except Exception as e:
+        print(f"Error parsing context: {e}")
+    
+    return context
