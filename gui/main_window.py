@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt
 import tifffile
 import numpy as np
 import os
+import shutil
 from gui.canvas import ImageCanvas
 from utils.metadata_parser import get_pixel_scale, get_metadata_context
 
@@ -203,4 +204,23 @@ class MainWindow(QMainWindow):
             
         except Exception as e:
             self.status_bar.showMessage(f"Error saving: {str(e)}")
-            print(f"Error saving: {e}")
+
+    def closeEvent(self, event):
+        # Clean up temp_data directory
+        temp_dir = os.path.join(os.getcwd(), "temp_data")
+        if os.path.exists(temp_dir):
+            try:
+                for filename in os.listdir(temp_dir):
+                    file_path = os.path.join(temp_dir, filename)
+                    try:
+                        if os.path.isfile(file_path) or os.path.islink(file_path):
+                            os.unlink(file_path)
+                        elif os.path.isdir(file_path):
+                            shutil.rmtree(file_path)
+                    except Exception as e:
+                        print(f"Failed to delete {file_path}. Reason: {e}")
+            except Exception as e:
+                print(f"Error cleaning temp_data: {e}")
+        
+        event.accept()
+
