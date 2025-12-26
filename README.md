@@ -12,8 +12,9 @@ A Python application for viewing and analyzing Scanning Electron Microscope (SEM
 
 ## Controls
 - **Left Click**: Measure (Line) or Add Vertex (Polygon).
-- **Right Click**: Pan the image.
+- **Middle Click**: Pan the image.
+- **Right Click**: Finish Polygon.
 - **Wheel**: Zoom in/out.
 
 ## Example Output
-![Annotated Sample](Screen.png)
+![Annotated Sample](docs/Screen.png)

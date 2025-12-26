@@ -5,8 +5,8 @@ import tifffile
 import numpy as np
 import os
 import shutil
-from gui.canvas import ImageCanvas
-from utils.metadata_parser import get_pixel_scale, get_metadata_context
+from .canvas import ImageCanvas
+from ..utils.metadata_parser import get_pixel_scale, get_metadata_context
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
         self.status_bar.addPermanentWidget(self.scale_label)
         
         # Instructions
-        self.status_bar.showMessage("Left-click & drag to measure. Right-click & drag to pan. Wheel to zoom.")
+        self.status_bar.showMessage("Select a tool.  |  🖱️ Middle-drag to pan  |  🔍 Wheel to zoom")
 
         # Toolbar
         self.toolbar = QToolBar("Tools")
@@ -83,11 +83,11 @@ class MainWindow(QMainWindow):
         if mode == ImageCanvas.MODE_MEASURE:
             self.measure_action.setChecked(True)
             self.polygon_action.setChecked(False)
-            self.status_bar.showMessage("Mode: Measure - Left-click start point, Left-click end point. Right-click & drag to pan.")
+            self.status_bar.showMessage("📏 Click start ➜ Click end  |  🖱️ Middle-drag to pan")
         else:
             self.measure_action.setChecked(False)
             self.polygon_action.setChecked(True)
-            self.status_bar.showMessage("Mode: Area - Left-click to add vertices. Double-click to finish. Right-click & drag to pan.")
+            self.status_bar.showMessage("⬠ Click to add points  |  Right-click to finish  |  🖱️ Middle-drag to pan")
 
     def open_file(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open SEM Image", "", "TIFF Files (*.tif *.tiff);;All Files (*)")

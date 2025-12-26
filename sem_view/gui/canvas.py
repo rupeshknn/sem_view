@@ -167,6 +167,9 @@ class ImageCanvas(QGraphicsView):
                 else:
                     self.current_polygon_item.setPolygon(QPolygonF(self.polygon_points))
         elif event.button() == Qt.RightButton:
+            if self.mode == self.MODE_POLYGON:
+                self.finish_polygon()
+        elif event.button() == Qt.MiddleButton:
             # Start panning
             self.panning = True
             self.last_pan_pos = event.pos()
@@ -204,7 +207,8 @@ class ImageCanvas(QGraphicsView):
             
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.LeftButton and self.mode == self.MODE_POLYGON:
-            self.finish_polygon()
+            # Double click to finish removed, now right click
+            pass
         else:
             super().mouseDoubleClickEvent(event)
 
@@ -259,7 +263,7 @@ class ImageCanvas(QGraphicsView):
         self.current_polygon_item = None
 
     def mouseReleaseEvent(self, event):
-        if self.panning and event.button() == Qt.RightButton:
+        if self.panning and event.button() == Qt.MiddleButton:
             self.panning = False
             self.setCursor(Qt.CrossCursor)
         else:

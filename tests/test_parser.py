@@ -1,7 +1,7 @@
-from utils.metadata_parser import get_pixel_scale
+from sem_view.utils.metadata_parser import get_pixel_scale
 
 def test_parser():
-    scale = get_pixel_scale("sample.tif")
+    scale = get_pixel_scale("docs/sample.tif")
     print(f"Scale: {scale}")
     if scale:
         print(f"Scale in nm/px: {scale * 1e9}")
