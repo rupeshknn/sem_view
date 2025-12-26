@@ -1,12 +1,16 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 block_cipher = None
+root_dir = os.path.abspath(os.path.join(SPECPATH, '..'))
 
 a = Analysis(
-    ['..\\sem_view\\main.py'],
-    pathex=[],
+    ['..\\run_viewer.py'],
+    pathex=[root_dir],
     binaries=[],
-    datas=[],
+    datas=[
+        ('..\\sem_view\\gui\\resources\\*.png', 'sem_view/gui/resources'),
+        ('..\\sem_view\\gui\\icon.ico', 'sem_view/gui'),
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

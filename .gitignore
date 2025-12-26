@@ -13,3 +13,8 @@ context_keys.txt
 
 # Temporary Data
 temp_data/
+
+#build files
+build/
+sem_view.egg-info/
+dist/
