@@ -1,0 +1,1551 @@
+--- Tags for docs/sample.tif ---
+
+--- Zeiss Metadata (34118) ---
+Key: 
+  Value: (0, 0, 0, 3.165519e-09, 100571.0, 6, 10000.0, 2.36, 2.106196e-10, 0.002730249, 1, 3.165519e-09, 100571.0, 6, 10000.0, 2.36, 2.106196e-10, 0.002730249, 2, 3.165519e-09, 100571.0, 6, 10000.0, 2.36, 2.106196e-10, 0.002730249, 3, 3.165519e-09, 100571.0, 6, 10000.0, 2.36, 2.106196e-10, 0.002730249, 778)
+Key: ap_actualcurrent
+  Value: ('Fil I', 2.36, 'A')
+Key: ap_actualext
+  Value: ('Extractor V', 5.27, 'kV')
+Key: ap_actualkv
+  Value: ('EHT', 10.0, 'kV')
+Key: ap_actuallens
+  Value: ('Liner Tube', 8.0, 'kV')
+Key: ap_actualsupp
+  Value: ('Suppressor V', 300, 'V')
+Key: ap_alias_wd
+  Value: ('Focus', 2.7, 'mm')
+Key: ap_align1_x
+  Value: ('Align 1 X', 0.0, '%')
+Key: ap_align1_y
+  Value: ('Align 1 Y', 0.0, '%')
+Key: ap_angular_0
+  Value: ('Aa 1', 0.0, '°')
+Key: ap_angular_1
+  Value: ('Aa 2', 0.0, '°')
+Key: ap_angular_2
+  Value: ('Aa 3', 0.0, 'kV')
+Key: ap_angular_3
+  Value: ('Aa 4', 0.0, 'kV')
+Key: ap_aperture_align_x
+  Value: ('Aperture Align X', -1.0, '%')
+Key: ap_aperture_align_y
+  Value: ('Aperture Align Y', 1.2, '%')
+Key: ap_aperture_at_fisheye_x
+  Value: ('Aperture value at FishEye X', 0.0, '%')
+Key: ap_aperture_at_fisheye_y
+  Value: ('Aperture value at FishEye Y', 0.0, '%')
+Key: ap_aperture_x
+  Value: ('Aperture at X', -0.2, '%')
+Key: ap_aperture_y
+  Value: ('Aperture at Y', 4.8, '%')
+Key: ap_apertureposn_x
+  Value: ('Aperture Posn X', 5.0, 'mm')
+Key: ap_apertureposn_y
+  Value: ('Aperture Posn Y', 1.0, 'mm')
+Key: ap_aperturesize
+  Value: ('Aperture Size', 30.0, 'µm')
+Key: ap_ar_acc
+  Value: ('Argon Energy', 0, 'V')
+Key: ap_ar_acc_actual
+  Value: ('Argon Energy is', 0, 'V')
+Key: ap_ar_acc_i
+  Value: ('Argon Acc I is', 0.0, 'µA')
+Key: ap_ar_angle
+  Value: ('Argon Column Angle', 0.0, '°')
+Key: ap_ar_beam_shift_x
+  Value: ('Argon Beam Shift X', 0.0, 'nm')
+Key: ap_ar_beam_shift_y
+  Value: ('Argon Beam Shift Y', 0.0, 'nm')
+Key: ap_ar_condenser
+  Value: ('Argon Condenser', 0, 'V')
+Key: ap_ar_condenser_actual
+  Value: ('Argon Condenser is', 0, 'V')
+Key: ap_ar_discharge
+  Value: ('Argon Discharge', 0, 'V')
+Key: ap_ar_discharge_actual
+  Value: ('Argon Discharge is', 0, 'V')
+Key: ap_ar_discharge_current
+  Value: ('Argon Discharge I is', 0.0, 'µA')
+Key: ap_ar_extractor
+  Value: ('Argon Extractor', 0, 'V')
+Key: ap_ar_extractor_actual
+  Value: ('Argon Extractor is', 0, 'V')
+Key: ap_ar_gas_flow
+  Value: ('Argon Gas Flow', 0.0, '%')
+Key: ap_ar_gas_flow_actual
+  Value: ('Argon Gas Flow is', 0.0, '%')
+Key: ap_ar_mag
+  Value: ('Argon Magnification', 0, 'X')
+Key: ap_ar_mag_factor
+  Value: ('Argon Mag Factor', 0.0, 'nm')
+Key: ap_ar_mill_progress
+  Value: ('Argon Mill Progress', 0.0, '%')
+Key: ap_ar_objective
+  Value: ('Argon Objective', 0, 'V')
+Key: ap_ar_objective_actual
+  Value: ('Argon Objective is', 0, 'V')
+Key: ap_ar_pixel_size
+  Value: ('Argon Pixel Size', 0.0, 'fm')
+Key: ap_ar_shift_ratio_x
+  Value: ('Argon Shift Ratio X', 0.0)
+Key: ap_ar_shift_ratio_y
+  Value: ('Argon Shift Ratio Y', 0.0)
+Key: ap_ar_v_int
+  Value: ('Argon V Int', 0, 'V')
+Key: ap_ar_v_int_actual
+  Value: ('Argon V Int is', 0, 'V')
+Key: ap_ar_xy_ratio
+  Value: ('Argon XY Ratio', 0.0)
+Key: ap_area_fraction
+  Value: ('Area Fraction', 0.0, '%')
+Key: ap_asap_cal_video_delay
+  Value: ('Video Delay', 0, 'ns')
+Key: ap_asap_dfe1_minus5v_analogue
+  Value: ('ASAP DFE1 Minus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe1_plus5v_analogue
+  Value: ('ASAP DFE1 Plus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe1_plus5v_digital
+  Value: ('ASAP DFE1 Plus5V Digital', 0.0, 'V')
+Key: ap_asap_dfe1_temperature
+  Value: ('ASAP DFE1 Temperature', 0.0, '°C')
+Key: ap_asap_dfe2_minus5v_analogue
+  Value: ('ASAP DFE2 Minus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe2_plus5v_analogue
+  Value: ('ASAP DFE2 Plus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe2_plus5v_digital
+  Value: ('ASAP DFE2 Plus5V Digital', 0.0, 'V')
+Key: ap_asap_dfe2_temperature
+  Value: ('ASAP DFE2 Temperature', 0.0, '°C')
+Key: ap_asap_dfe3_minus5v_analogue
+  Value: ('ASAP DFE3 Minus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe3_plus5v_analogue
+  Value: ('ASAP DFE3 Plus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe3_plus5v_digital
+  Value: ('ASAP DFE3 Plus5V Digital', 0.0, 'V')
+Key: ap_asap_dfe3_temperature
+  Value: ('ASAP DFE3 Temperature', 0.0, '°C')
+Key: ap_asap_dfe4_minus5v_analogue
+  Value: ('ASAP DFE4 Minus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe4_plus5v_analogue
+  Value: ('ASAP DFE4 Plus5V Analogue', 0.0, 'V')
+Key: ap_asap_dfe4_plus5v_digital
+  Value: ('ASAP DFE4 Plus5V Digital', 0.0, 'V')
+Key: ap_asap_dfe4_temperature
+  Value: ('ASAP DFE4 Temperature', 0.0, '°C')
+Key: ap_asap_mb_temperature
+  Value: ('ASAP MB Temperature', 0.0, '°C')
+Key: ap_asap_scan_offset_x
+  Value: ('Scan Offset X', 0)
+Key: ap_asap_scan_offset_y
+  Value: ('Scan Offset Y', 0)
+Key: ap_asap_vbe1_minus5v_analogue
+  Value: ('ASAP VBE1 Minus5V Analogue', 0.0, 'V')
+Key: ap_asap_vbe1_plus5v_analogue
+  Value: ('ASAP VBE1 Plus5V Analogue', 0.0, 'V')
+Key: ap_asap_vbe1_temperature
+  Value: ('ASAP VBE1 Temperature', 0.0, '°C')
+Key: ap_asap_vbe2_minus5v_analogue
+  Value: ('ASAP VBE2 Minus5V Analogue', 0.0, 'V')
+Key: ap_asap_vbe2_plus5v_analogue
+  Value: ('ASAP VBE2 Plus5V Analogue', 0.0, 'V')
+Key: ap_asap_vbe2_temperature
+  Value: ('ASAP VBE2 Temperature', 0.0, '°C')
+Key: ap_auto_bright
+  Value: ('Auto B Target', 100.0, '%')
+Key: ap_auto_contrast
+  Value: ('Auto C Target', 100.0, '%')
+Key: ap_beam_blank_aperture_x
+  Value: ('Beam Blanked Aperture Pos X', 100.0, '%')
+Key: ap_beam_blank_aperture_y
+  Value: ('Beam Blanked Aperture Pos Y', 100.0, '%')
+Key: ap_beam_blank_gun_x
+  Value: ('Beam Blanked Gun Pos X', 100.0, '%')
+Key: ap_beam_blank_gun_y
+  Value: ('Beam Blanked Gun Pos Y', 100.0, '%')
+Key: ap_beam_current
+  Value: ('Beam Current', 80.0, 'µA')
+Key: ap_beam_current_monitor
+  Value: ('Beam I Monitor', 0.0, 'µA')
+Key: ap_beam_offset_x
+  Value: ('Beam Offset X', 5.382, 'µm')
+Key: ap_beam_offset_y
+  Value: ('Beam Offset Y', -771.77, 'nm')
+Key: ap_beam_shift_align_x
+  Value: ('Beam Shift Align X', 0.0, 'nm')
+Key: ap_beam_shift_align_y
+  Value: ('Beam Shift Align Y', 0.0, 'nm')
+Key: ap_beam_time
+  Value: ('Beam Time', 24272.14, 'Hours')
+Key: ap_beamshift_x
+  Value: ('Beam Shift X', 73.9, '%')
+Key: ap_beamshift_y
+  Value: ('Beam Shift Y', -10.4, '%')
+Key: ap_beamsleeve_voltage
+  Value: ('Beam sleeve Bias', 0, 'V')
+Key: ap_bgpl
+  Value: ('BGPL', 10.0, 'mm')
+Key: ap_black_detect
+  Value: ('Black Threshold', 0.0, '%')
+Key: ap_brightness
+  Value: ('Brightness', 27.3, '%')
+Key: ap_brightnessz0
+  Value: ('Brightness A', 27.3, '%')
+Key: ap_brightnessz1
+  Value: ('Brightness B', 27.3, '%')
+Key: ap_brightnessz2
+  Value: ('Brightness C', 40.3, '%')
+Key: ap_brightnessz3
+  Value: ('Brightness D', 40.3, '%')
+Key: ap_c1
+  Value: ('C1 Lens I', 0, 'µA')
+Key: ap_c1cal
+  Value: ('C1 Cal', 0.958)
+Key: ap_c1rem
+  Value: ('C1 Rem', 0.0105)
+Key: ap_c2
+  Value: ('C2 Lens I', 0, 'µA')
+Key: ap_c2cal
+  Value: ('C2 Cal', 1.063)
+Key: ap_c2rem
+  Value: ('C2 Rem', 0.0318)
+Key: ap_c3
+  Value: ('C3 Lens I', 1.232, 'A')
+Key: ap_c3_decl
+  Value: ('Decl cal 2', 1.0)
+Key: ap_c3_save
+  Value: ('C3 saved for beam decel', 0, 'µA')
+Key: ap_c3cal
+  Value: ('C3 Cal', 0.939)
+Key: ap_c3rem
+  Value: ('C3 Rem', 0.0137)
+Key: ap_cc_pressure
+  Value: ('CC Pressure', 0.0, '%')
+Key: ap_ccd_illumination
+  Value: ('CCD Illum.', 85.0, '%')
+Key: ap_chamber_pressure
+  Value: ('Chamber', 8.16e-05, 'Pa')
+Key: ap_chamber_pressure_detailed
+  Value: ('Chamber Pressure Detailed', 8.16e-05, 'Pa')
+Key: ap_clip_limit
+  Value: ('Clip Limit', 0)
+Key: ap_collector_bias
+  Value: ('Collector Bias', 300, 'V')
+Key: ap_column_vac
+  Value: ('Gun Vacuum', 2.26e-10, 'mbar')
+Key: ap_compu_tilt_error
+  Value: ('Compu. Tilt Error', 0.0)
+Key: ap_compu_tilt_offset
+  Value: ('Compu. Tilt Offset', 0.0, 'mm')
+Key: ap_conjugate
+  Value: ('Conjugate posn.', -164.0, 'mm')
+Key: ap_contrast
+  Value: ('Contrast', 51.1, '%')
+Key: ap_contrastz0
+  Value: ('Contrast A', 51.1, '%')
+Key: ap_contrastz1
+  Value: ('Contrast B', 51.1, '%')
+Key: ap_contrastz2
+  Value: ('Contrast C', 40.7, '%')
+Key: ap_contrastz3
+  Value: ('Contrast D', 40.7, '%')
+Key: ap_cursor_height
+  Value: ('Cursor Height', 490.7, 'nm')
+Key: ap_cursor_width
+  Value: ('Cursor Width', 170.9, 'nm')
+Key: ap_date
+  Value: ('Date', '9 Dec 2025')
+Key: ap_dc_max_attempts
+  Value: ('Drift Max Tries', 10)
+Key: ap_dc_max_pix_error
+  Value: ('Drift Max.Pix.Error', 1)
+Key: ap_dc_min_conf
+  Value: ('Drift Min Conf', 50.0, '%')
+Key: ap_dc_shift_x
+  Value: ('Aperture Align X', 0.0, '%')
+Key: ap_dc_shift_y
+  Value: ('Aperture Align Y', 0.0, '%')
+Key: ap_defect_id
+  Value: ('Defect ID', 0)
+Key: ap_detector_bandwidth_offset
+  Value: ('Det BW Offset', 0)
+Key: ap_dual_mag_offset_x
+  Value: ('Dual Mag Offset X', 6.0)
+Key: ap_dual_mag_offset_y
+  Value: ('Dual Mag Offset Y', -2.0)
+Key: ap_dual_mag_slope
+  Value: ('Dual Mag Gain X', 671.32)
+Key: ap_dual_mag_y_slope
+  Value: ('Dual Mag Gain Y', 662.1)
+Key: ap_eht_cal_100
+  Value: ('EHT Cal@0.1KV', 45, 'V')
+Key: ap_eht_cal_10kv
+  Value: ('EHT Cal@10KV', 9.8, 'kV')
+Key: ap_eht_cal_24kv
+  Value: ('EHT Cal@24KV', 24.0, 'kV')
+Key: ap_eht_cal_30kv
+  Value: ('EHT Cal@30KV', 30.0, 'kV')
+Key: ap_eht_set_max
+  Value: ('EHT set maximum', 30.0, 'kV')
+Key: ap_eht_set_min
+  Value: ('EHT Set minimum', 0.01, 'kV')
+Key: ap_emissionzoom
+  Value: ('Emission Zoom', 100)
+Key: ap_ep_target
+  Value: ('EP Target', 25, 'Pa')
+Key: ap_epd_high
+  Value: ('EPD High Limit', 0)
+Key: ap_epd_low
+  Value: ('EPD Low Limit', 0)
+Key: ap_epse_bias
+  Value: ('EPSE Bias', 0.0, '%')
+Key: ap_esb_grid
+  Value: ('ESB Grid', 100, 'V')
+Key: ap_esb_grid_is
+  Value: ('ESB Grid is', 0, 'V')
+Key: ap_esb_grid_max
+  Value: ('ESB Grid Max', 100, 'V')
+Key: ap_esd_excitation
+  Value: ('ESD Excitation', 0.0, '%')
+Key: ap_esd_lower_x
+  Value: ('ESD Lower X', 0.0, '%')
+Key: ap_esd_lower_y
+  Value: ('ESD Lower Y', 0.0, '%')
+Key: ap_esd_upper_x
+  Value: ('ESD Upper X', 0.0, '%')
+Key: ap_esd_upper_y
+  Value: ('ESD Upper Y', 0.0, '%')
+Key: ap_extcurrent
+  Value: ('Ext I Monitor', 296.6, 'µA')
+Key: ap_fcf_setting
+  Value: ('FCF Setting', 0.0, '%')
+Key: ap_fcf_tilt
+  Value: ('FCF Tilt Angle', 0.0, '°')
+Key: ap_fib_abs_delta_beam_shift_x
+  Value: ('FIB Abs Beam Shift X', 0.0, 'nm')
+Key: ap_fib_abs_delta_beam_shift_y
+  Value: ('FIB Abs Beam Shift Y', 0.0, 'nm')
+Key: ap_fib_aper_x_actual
+  Value: ('FIB Aperture X Actual', 0)
+Key: ap_fib_aper_y_actual
+  Value: ('FIB Aperture Y Actual', 0)
+Key: ap_fib_aperture_align_x
+  Value: ('FIB Aper.Align X', 0)
+Key: ap_fib_aperture_align_y
+  Value: ('FIB Aper.Align Y', 0)
+Key: ap_fib_beam_shift_x
+  Value: ('FIB Beam Shift X', 0.0, 'nm')
+Key: ap_fib_beam_shift_y
+  Value: ('FIB Beam Shift Y', 0.0, 'nm')
+Key: ap_fib_column_pressure
+  Value: ('FIB Column Pressure', 0.0, 'mbar')
+Key: ap_fib_condenser
+  Value: ('FIB Condenser', 0, 'V')
+Key: ap_fib_condenser_actual
+  Value: ('FIB Condenser actual', 0, 'V')
+Key: ap_fib_drift_x
+  Value: ('FIB Drift X', 0.0, 'nm')
+Key: ap_fib_drift_y
+  Value: ('FIB Drift Y', 0.0, 'nm')
+Key: ap_fib_eht_actual
+  Value: ('FIB EHT', 0.0, 'kV')
+Key: ap_fib_eht_target
+  Value: ('FIB EHT Target', 0.0, 'kV')
+Key: ap_fib_emission_current
+  Value: ('FIB Emission I', 0.0, 'µA')
+Key: ap_fib_emission_target
+  Value: ('FIB Emission Target', 0.0, 'µA')
+Key: ap_fib_ext_actual
+  Value: ('FIB Extractor', 0.0, 'kV')
+Key: ap_fib_ext_target
+  Value: ('FIB Extr.Target', 0.0, 'kV')
+Key: ap_fib_fg_emission_actual
+  Value: ('Flood Gun Emission Actual', 0.0, 'µA')
+Key: ap_fib_fg_emission_target
+  Value: ('Flood Gun Emission target', 0.0, 'µA')
+Key: ap_fib_fg_energy_actual
+  Value: ('Flood Gun Energy Actual', 0.0, 'V')
+Key: ap_fib_fg_energy_target
+  Value: ('Flood Gun Energy Target', 0.0, 'V')
+Key: ap_fib_fg_extractor_voltage
+  Value: ('Flood Gun Extractor Voltage', 0, 'V')
+Key: ap_fib_fg_fil_current_actual
+  Value: ('Flood Gun Filament Actual', 0, 'µA')
+Key: ap_fib_fg_fil_current_target
+  Value: ('Flood Gun Filament Target', 0, 'µA')
+Key: ap_fib_fg_serial_number
+  Value: ('Flood Gun Serial Number', 0)
+Key: ap_fib_fil_i
+  Value: ('FIB Fil Current', 0, 'µA')
+Key: ap_fib_fil_i_target
+  Value: ('FIB Fil I Target', 0, 'µA')
+Key: ap_fib_fil_v
+  Value: ('FIB Fil Voltage', 0.0, 'V')
+Key: ap_fib_fil_v_target
+  Value: ('FIB Fil V target', 0.0, 'V')
+Key: ap_fib_focus
+  Value: ('FIB Focus', 0.0)
+Key: ap_fib_gun_pressure
+  Value: ('FIB Gun Pressure', 0.0, 'mbar')
+Key: ap_fib_heating_limit
+  Value: ('FIB Heating Limit', 0, 'µA')
+Key: ap_fib_mag_fine_gain_x
+  Value: ('FIB Mag fine gain X', 0.0)
+Key: ap_fib_mag_fine_gain_y
+  Value: ('FIB Mag fine gain Y', 0.0)
+Key: ap_fib_magnification
+  Value: ('FIB Mag', 0, 'X')
+Key: ap_fib_min_autoheat_current
+  Value: ('FIB Min. Autoheat Current', 0, 'µA')
+Key: ap_fib_nudge_step
+  Value: ('FIB Nudge Step', 0.0, 'nm')
+Key: ap_fib_objective_actual
+  Value: ('FIB Objective Actual', 0, 'V')
+Key: ap_fib_objective_potential
+  Value: ('FIB Objective', 0, 'V')
+Key: ap_fib_pixel_size
+  Value: ('FIB Pixel Size', 0.0, 'fm')
+Key: ap_fib_probe_current_actual
+  Value: ('FIB Probe Current Actual', 0.0, 'pA')
+Key: ap_fib_scan_rotation
+  Value: ('FIB Scan Rot', 0.0, '°')
+Key: ap_fib_scan_size
+  Value: ('FIB Scan Size', 0.0, 'nm')
+Key: ap_fib_sem_angle
+  Value: ('FIB SEM Angle', 54.0, '°')
+Key: ap_fib_shift_correction_x
+  Value: ('FIB Shift Correction X', 0.0, 'nm')
+Key: ap_fib_shift_correction_y
+  Value: ('FIB Shift Correction Y', 0.0, 'nm')
+Key: ap_fib_slice_angle
+  Value: ('Slice Angle', 0.0, '°')
+Key: ap_fib_slice_height
+  Value: ('Slice Height', 0.0, 'nm')
+Key: ap_fib_slice_index
+  Value: ('Slice Index', 0)
+Key: ap_fib_slice_width
+  Value: ('Slice Width', 0.0, 'nm')
+Key: ap_fib_slice_x
+  Value: ('Slice X', 0.0, 'nm')
+Key: ap_fib_slice_y
+  Value: ('Slice Y', 0.0, 'nm')
+Key: ap_fib_source_lifetime
+  Value: ('FIB Source Lifetime', 0.0, 'µAh')
+Key: ap_fib_stig_x_centre_x
+  Value: ('FIB Stig X Centre X', 0.0)
+Key: ap_fib_stig_x_centre_y
+  Value: ('FIB Stig X Centre Y', 0.0)
+Key: ap_fib_stig_y_centre_x
+  Value: ('FIB Stig Y Centre X', 0.0)
+Key: ap_fib_stig_y_centre_y
+  Value: ('FIB Stig Y Centre Y', 0.0)
+Key: ap_fib_stigmator_x
+  Value: ('FIB Stig X', 0.0, '%')
+Key: ap_fib_stigmator_y
+  Value: ('FIB Stig Y', 0.0, '%')
+Key: ap_fib_suppressor
+  Value: ('FIB Suppressor', 0, 'V')
+Key: ap_fib_suppressor_target
+  Value: ('FIB Suppressor Target', 0, 'V')
+Key: ap_fib_tilt_comp
+  Value: ('FIB Tilt Comp', 0.0, '°')
+Key: ap_fib_track_wd_delta
+  Value: ('FIB Track WD Delta', 0.0, 'nm')
+Key: ap_fib_working_distance
+  Value: ('FIB Working Distance', 0.0, 'mm')
+Key: ap_field_overlap
+  Value: ('Field Overlap', 0.0, '%')
+Key: ap_filament_age
+  Value: ('Filament Age', 24067.44, 'Hours')
+Key: ap_file_number
+  Value: ('File No', 56473)
+Key: ap_fisheye_angle
+  Value: ('Fisheye Angle', 0.0, '°')
+Key: ap_fisheye_orthog
+  Value: ('Fisheye Orthog', 0.0, '°')
+Key: ap_fisheye_quadriture
+  Value: ('Fisheye quadriture', 0)
+Key: ap_fm_angle
+  Value: ('Field Mode Angle', -1.0, '°')
+Key: ap_fm_orthog
+  Value: ('Field Mode Orthog', -1.0, '°')
+Key: ap_fm_quadriture
+  Value: ('Field Mode Quadriture', 1000)
+Key: ap_focus_rotation_comp
+  Value: ('Focus Rotation comp.', -0.009, 'kV')
+Key: ap_frame_ampl
+  Value: ('Frame Ampl Cal.', 0)
+Key: ap_frame_average_count
+  Value: ('Frames to average', 1)
+Key: ap_frame_counter
+  Value: ('Frame Counter', 10390)
+Key: ap_frame_int_count
+  Value: ('Frames to Int.', 0)
+Key: ap_frame_time
+  Value: ('Cycle Time', 10.2, 'Secs')
+Key: ap_free_wd
+  Value: ('Free WD', 2.7, 'mm')
+Key: ap_gain
+  Value: ('Gain A', 100.0, '%')
+Key: ap_gamma
+  Value: ('Gamma', 1.0)
+Key: ap_gun_at_fisheye_x
+  Value: ('Gun Value at FishEye mode X', 0.0, '%')
+Key: ap_gun_at_fisheye_y
+  Value: ('Gun Value at FishEye mode Y', 0.0, '%')
+Key: ap_gun_x
+  Value: ('Gun at X', 4.0, '%')
+Key: ap_gun_y
+  Value: ('Gun at Y', 1.0, '%')
+Key: ap_gunalign_x
+  Value: ('Gun Align X', 0.0, '%')
+Key: ap_gunalign_y
+  Value: ('Gun Align Y', 0.0, '%')
+Key: ap_gunshift_x
+  Value: ('Gun Shift X', 0.0, '%')
+Key: ap_gunshift_y
+  Value: ('Gun Shift Y', 0.0, '%')
+Key: ap_guntilt_x
+  Value: ('Gun Tilt X', 0.0, '%')
+Key: ap_guntilt_y
+  Value: ('Gun Tilt Y', 0.0, '%')
+Key: ap_h_0
+  Value: ('H 1', 264.0, 'nm')
+Key: ap_h_1
+  Value: ('H 2', 0.0, 'nm')
+Key: ap_h_2
+  Value: ('H 3', 0.0, 'nm')
+Key: ap_h_3
+  Value: ('H 4', 0.0, 'nm')
+Key: ap_h_4
+  Value: ('H 5', 0.0, 'nm')
+Key: ap_h_5
+  Value: ('H 6', 0.0, 'nm')
+Key: ap_h_6
+  Value: ('H 7', 0.0, 'nm')
+Key: ap_h_7
+  Value: ('H 8', 0.0, 'nm')
+Key: ap_h_8
+  Value: ('H 9', 0.0, 'nm')
+Key: ap_h_9
+  Value: ('H 10', 0.0, 'nm')
+Key: ap_hcstage_temp
+  Value: ('Peltier Temp', 20.0, '°C')
+Key: ap_height
+  Value: ('Height', 2.431, 'µm')
+Key: ap_holder_diameter
+  Value: ('Holder Diameter', 50.0, 'mm')
+Key: ap_holder_height
+  Value: ('Holder Height', 17.2, 'mm')
+Key: ap_holder_length
+  Value: ('Holder Length', 0.0, 'mm')
+Key: ap_holder_width
+  Value: ('Holder Width', 0.0, 'mm')
+Key: ap_hp_target
+  Value: ('VP Target', 25, 'Pa')
+Key: ap_hrru_number
+  Value: ('HRRU No.', 0)
+Key: ap_hsync_delay
+  Value: ('HSync delay', 0, 'ns')
+Key: ap_humidity
+  Value: ('Humidity', 0.0, '%')
+Key: ap_humidity_target
+  Value: ('Humidity Target', 0.0, '%')
+Key: ap_image_pixel_size
+  Value: ('Image Pixel Size', 3.166, 'nm')
+Key: ap_implied_gain
+  Value: ('Gain B', 100.0, '%')
+Key: ap_implied_offset
+  Value: ('Offset B', 0.0, '%')
+Key: ap_inlens_duo_grid
+  Value: ('InlensDuo Grid', 0, 'V')
+Key: ap_inlens_duo_grid_actual
+  Value: ('InlensDuo Grid is', 0, 'V')
+Key: ap_ion_collector_voltage
+  Value: ('Collector Voltage', 0.0, 'kV')
+Key: ap_ion_convertor_voltage
+  Value: ('Convertor Voltage', 0.0, 'kV')
+Key: ap_iprobe
+  Value: ('I Probe', 211, 'pA')
+Key: ap_jazz_back_grid
+  Value: ('Back Grid', 0, 'V')
+Key: ap_jazz_front_grid
+  Value: ('Front Grid', 0, 'V')
+Key: ap_k1
+  Value: ('Signal', 1.0)
+Key: ap_k2
+  Value: ('Mix Signal', 0.0)
+Key: ap_landing_energy
+  Value: ('Landing energy', 10.0, 'kV')
+Key: ap_laser_finder_illum
+  Value: ('Laser Illumination', 0.0, '%')
+Key: ap_line_average_count
+  Value: ('Line Avg.Count', 2)
+Key: ap_line_counter
+  Value: ('Line Counter', 767)
+Key: ap_line_int_count
+  Value: ('Line int. count', 1)
+Key: ap_line_posn_x
+  Value: ('Line posn X', 0)
+Key: ap_line_posn_y
+  Value: ('Line posn Y', 192)
+Key: ap_line_time
+  Value: ('Line Time', 13.21, 'ms')
+Key: ap_liner_cal_at_100v
+  Value: ('Liner cal @ 100V', 100, 'V')
+Key: ap_liner_cal_at_10kv
+  Value: ('Liner Cal @ 10KV', 10000, 'V')
+Key: ap_linetoframe_lower
+  Value: ('Line To Frame Lower', 0.0)
+Key: ap_linetoframe_upper
+  Value: ('Line To Frame Upper', 0.0)
+Key: ap_low_mag_focus
+  Value: ('Low Mag Focus', 1.0)
+Key: ap_mag
+  Value: ('Mag', '100.57 K X')
+Key: ap_mag0
+  Value: ('Mag Z0', 1.0)
+Key: ap_mag1
+  Value: ('Mag Z1', 1.0)
+Key: ap_mag_comp_ampl
+  Value: ('Mag Comp. Amplitude', 37.0, '%')
+Key: ap_mag_comp_offset
+  Value: ('Mag Comp. Offset', 506)
+Key: ap_mag_decl
+  Value: ('Mag scaling decel', 1.0)
+Key: ap_mag_gain_lower_x
+  Value: ('Shift Amp Lower Gain X', 0.0)
+Key: ap_mag_gain_lower_y
+  Value: ('Shift Amp Lower Gain Y', 0.0)
+Key: ap_mag_gain_upper_x
+  Value: ('Shift Amp Upper Gain X', 0.0)
+Key: ap_mag_gain_upper_y
+  Value: ('Shift Amp Upper Gain Y', 0.0)
+Key: ap_mag_gain_x
+  Value: ('Mag Gain Cal X', 1000.0)
+Key: ap_mag_gain_y
+  Value: ('Mag Gain Cal Y', 1000.0)
+Key: ap_mag_shift_lower_x
+  Value: ('Shift Amp Lower Offset X', 0.0)
+Key: ap_mag_shift_lower_y
+  Value: ('Shift Amp Lower Offset Y', 0.0)
+Key: ap_mag_shift_upper_x
+  Value: ('Shift Amp Upper Offset X', 0.0)
+Key: ap_mag_shift_upper_y
+  Value: ('Shift Amp Upper Offset Y', 0.0)
+Key: ap_mag_shift_x
+  Value: ('Mag Shift Cal X', 0.0)
+Key: ap_mag_shift_y
+  Value: ('Mag Shift Cal Y', 0.0)
+Key: ap_magcal_base
+  Value: ('Calibrate Mag Base', 50000.0)
+Key: ap_magcal_lower_x
+  Value: ('Calibrate Mag Lower X', 0.0)
+Key: ap_magcal_lower_y
+  Value: ('Calibrate Mag Lower Y', 0.0)
+Key: ap_magcal_upper_x
+  Value: ('Calibrate Mag Upper X', 0.0)
+Key: ap_magcal_upper_y
+  Value: ('Calibrate Mag Upper Y', 0.0)
+Key: ap_magcalheight
+  Value: ('Mag Cal Actual Height', 0.0, 'nm')
+Key: ap_magcalwidth
+  Value: ('Mag Cal Actual Width', 0.0, 'nm')
+Key: ap_manualcurrent
+  Value: ('Fil I Target', 2.36, 'A')
+Key: ap_manualext
+  Value: ('Extractor V Target', 5.27, 'kV')
+Key: ap_manualkv
+  Value: ('EHT Target', 10.0, 'kV')
+Key: ap_manuallens
+  Value: ('Liner Target', 8.0, 'kV')
+Key: ap_manualsupp
+  Value: ('Suppressor V Target', 300, 'V')
+Key: ap_max_extractor_v
+  Value: ('Max Extractor V', 6.0, 'kV')
+Key: ap_max_wd
+  Value: ('Focus scan max', 40, 'mm')
+Key: ap_mill_item_elapsed_time
+  Value: ('Mill Item Elapsed Time', 0, 'ms')
+Key: ap_mill_item_total_time
+  Value: ('Mill Item Total Time', 0, 'ms')
+Key: ap_mill_list_elapsed_time
+  Value: ('Mill List Elapsed Time', 0, 'ms')
+Key: ap_mill_list_total_time
+  Value: ('Mill List Total Time', 0, 'ms')
+Key: ap_min_ext
+  Value: ('Min Extractor V', 3.0, 'kV')
+Key: ap_min_wd
+  Value: ('Focus scan min', 1, 'mm')
+Key: ap_minmag
+  Value: ('Min Mag', 114, 'X')
+Key: ap_nominalext
+  Value: ('Nominal extractor V', 5.27, 'kV')
+Key: ap_nominalfil
+  Value: ('Nominal Fil I', 2.36, 'A')
+Key: ap_offset
+  Value: ('Offset A', 0.0, '%')
+Key: ap_opt_semiangle
+  Value: ('Opt. Semi Angle', 0.0, 'µrad')
+Key: ap_peltier_target
+  Value: ('Peltier Target', 20.0, '°C')
+Key: ap_photo_number
+  Value: ('Photo No.', 37093)
+Key: ap_piezo_at_x
+  Value: ('Piezo at X', 0.0, 'µm')
+Key: ap_piezo_at_y
+  Value: ('Piezo at Y', 0.0, 'µm')
+Key: ap_piezo_exchange_x
+  Value: ('Piezo Exchange X', 0.0, 'µm')
+Key: ap_piezo_exchange_y
+  Value: ('Piezo Exchange Y', 0.0, 'µm')
+Key: ap_piezo_goto_x
+  Value: ('Piezo Goto X', 0.0, 'µm')
+Key: ap_piezo_goto_y
+  Value: ('Piezo Goto Y', 0.0, 'µm')
+Key: ap_pirani_pressure
+  Value: ('Pirani Pressure', 0.00534, 'mbar')
+Key: ap_pixel_size
+  Value: ('Pixel Size', 3.166, 'nm')
+Key: ap_polaris_probe_cal
+  Value: ('Probe Cal Factor', 1.0)
+Key: ap_ppa_0
+  Value: ('Pa 1', 0.0, 'nm')
+Key: ap_ppa_1
+  Value: ('Pa 2', 0.0, 'nm')
+Key: ap_ppa_2
+  Value: ('Pa 3', 0.0, 'nm')
+Key: ap_ppa_3
+  Value: ('Pa 4', 0.0, 'nm')
+Key: ap_ppa_4
+  Value: ('Pa 5', 0.0, 'nm')
+Key: ap_ppa_5
+  Value: ('Pa 6', 0.0, 'nm')
+Key: ap_ppa_6
+  Value: ('Pa 7', 0.0, 'nm')
+Key: ap_ppa_7
+  Value: ('Pa 8', 0.0, 'nm')
+Key: ap_ppa_8
+  Value: ('Pa 9', 0.0, 'nm')
+Key: ap_ppa_9
+  Value: ('Pa 10', 0.0, 'nm')
+Key: ap_ppb_0
+  Value: ('Pb 1', 0.0, '°')
+Key: ap_ppb_1
+  Value: ('Pb 2', 0.0, '°')
+Key: ap_ppb_2
+  Value: ('Pb 3', 0.0, '°')
+Key: ap_ppb_3
+  Value: ('Pb 4', 0.0, '°')
+Key: ap_ppb_4
+  Value: ('Pb 5', 0.0, '°')
+Key: ap_ppb_5
+  Value: ('Pb 6', 0.0, '°')
+Key: ap_ppb_6
+  Value: ('Pb 7', 0.0, '°')
+Key: ap_print_number
+  Value: ('Print No.', 0)
+Key: ap_prof1_x1
+  Value: ('Profile 1 X1', 0)
+Key: ap_prof1_x2
+  Value: ('Profile 1 X2', 0)
+Key: ap_prof2_x1
+  Value: ('Profile 2 X1', 0)
+Key: ap_prof2_x2
+  Value: ('Profile 2 X2', 0)
+Key: ap_profile_top
+  Value: ('Profile Top', 300)
+Key: ap_profile_w
+  Value: ('Profile width', 0.0, 'nm')
+Key: ap_profile_w1
+  Value: ('Profile Width 1', 0.0, 'nm')
+Key: ap_profile_w2
+  Value: ('Profile Width 2', 0.0, 'nm')
+Key: ap_purge_cycles
+  Value: ('Purge cycles', 2)
+Key: ap_purge_max
+  Value: ('Purge Max', 1066, 'Pa')
+Key: ap_purge_min
+  Value: ('Purge Min', 133, 'Pa')
+Key: ap_radial_0
+  Value: ('Da 1', 0.0, 'nm')
+Key: ap_radial_1
+  Value: ('Da 2', 0.0, 'nm')
+Key: ap_radial_2
+  Value: ('Da 3', 0.0, 'nm')
+Key: ap_radial_3
+  Value: ('Da 4', 0.0, 'nm')
+Key: ap_radial_area_0
+  Value: ('Db 1', 0.0, 'nm²')
+Key: ap_radial_area_1
+  Value: ('Db 2', 0.0, 'nm²')
+Key: ap_radial_area_2
+  Value: ('Db 3', 0.0, 'nm²')
+Key: ap_radial_area_3
+  Value: ('Db 4', 0.0, 'nm²')
+Key: ap_red_raster_h
+  Value: ('Red.Raster Height', 384)
+Key: ap_red_raster_posn_x
+  Value: ('Red.Raster Posn X', 256)
+Key: ap_red_raster_posn_y
+  Value: ('Red.Raster Posn Y', 192)
+Key: ap_red_raster_w
+  Value: ('Red.Raster Width', 512)
+Key: ap_reduced_raster_width
+  Value: ('Reduced Raster Width', 512)
+Key: ap_reduced_raster_y
+  Value: ('Reduced Raster Y', 192)
+Key: ap_sample_at_x
+  Value: ('Sample at X', 0.0)
+Key: ap_sample_at_y
+  Value: ('Sample at Y', 0.0)
+Key: ap_sample_height
+  Value: ('Compu. Height', 0.0, 'mm')
+Key: ap_scan_offset_x
+  Value: ('Scan X cal.', 0)
+Key: ap_scan_offset_y
+  Value: ('Scan Y cal.', 0)
+Key: ap_scan_rotation_offset_lower
+  Value: ('Scan Rotation Offset Lower', 0.0, '°')
+Key: ap_scanorthog
+  Value: ('Scan Orth corrn', 1.9, '°')
+Key: ap_scanorthog_lower
+  Value: ('Orthogonality Lower', 0.0, '°')
+Key: ap_scanorthog_upper
+  Value: ('Orthogonality Upper', 0.0, '°')
+Key: ap_scanrotation
+  Value: ('Scan Rotation', 358.0, '°')
+Key: ap_scm
+  Value: ('Specimen I', 0.0, 'pA')
+Key: ap_sem_level_at_tilt
+  Value: ('SEM Level @', 0.0, '°')
+Key: ap_semiangle
+  Value: ('Semi Angle', 0.0, 'µrad')
+Key: ap_si_enhancement
+  Value: ('SmartImage Contrast', 30.0, '%')
+Key: ap_si_factor
+  Value: ('SmartImage Sharpening', 10.0, '%')
+Key: ap_si_threshold
+  Value: ('SmartImage Threshold', 0.5, '%')
+Key: ap_si_topography
+  Value: ('SmartImage Topography', 10.0, '%')
+Key: ap_spacer_thickness
+  Value: ('Spacer Thickness', 0.0, 'mm')
+Key: ap_specimen_diameter
+  Value: ('Specimen Diameter', 10, 'mm')
+Key: ap_specimen_height
+  Value: ('Specimen Height', 0, 'mm')
+Key: ap_spot
+  Value: ('Spot signal', 0)
+Key: ap_spot_posn_x
+  Value: ('Spot at X', 256)
+Key: ap_spot_posn_y
+  Value: ('Spot at Y', 192)
+Key: ap_spot_x_cal
+  Value: ('Spot X Cal', 4)
+Key: ap_spotsize
+  Value: ('Spot Size', 1)
+Key: ap_stage_at_field_x
+  Value: ('Stage at field X', 1)
+Key: ap_stage_at_field_y
+  Value: ('Stage at field Y', 1)
+Key: ap_stage_at_m
+  Value: ('Stage at M', 0.0, 'mm')
+Key: ap_stage_at_r
+  Value: ('Stage at R', 236.8, '°')
+Key: ap_stage_at_t
+  Value: ('Stage at T', 0.0, '°')
+Key: ap_stage_at_x
+  Value: ('Stage at X', 49.4057, 'mm')
+Key: ap_stage_at_y
+  Value: ('Stage at Y', 67.5447, 'mm')
+Key: ap_stage_at_z
+  Value: ('Stage at Z', 28.156, 'mm')
+Key: ap_stage_bias_voltage
+  Value: ('Stage bias Low Volts', 0.0, 'V')
+Key: ap_stage_bias_voltage_high
+  Value: ('Beam deceleration Volts', 0, 'V')
+Key: ap_stage_bias_wobble_amplitude
+  Value: ('Stage bias wobble amplitude', 0, 'V')
+Key: ap_stage_centre_x
+  Value: ('Stage Centre X', 58.726, 'mm')
+Key: ap_stage_centre_y
+  Value: ('Stage Centre Y', 51.457, 'mm')
+Key: ap_stage_delta_m
+  Value: ('Stage Delta M', 0.0, 'mm')
+Key: ap_stage_delta_r
+  Value: ('Stage Delta R', 0.0, '°')
+Key: ap_stage_delta_t
+  Value: ('Stage Delta T', 0.0, '°')
+Key: ap_stage_delta_x
+  Value: ('Stage Delta X', 0.0, 'mm')
+Key: ap_stage_delta_y
+  Value: ('Stage Delta Y', 0.0, 'mm')
+Key: ap_stage_delta_z
+  Value: ('Stage Delta Z', 0.0, 'mm')
+Key: ap_stage_field_size_x
+  Value: ('Stage field size X', 0.0, 'mm')
+Key: ap_stage_field_size_y
+  Value: ('Stage field size Y', 0.0, 'mm')
+Key: ap_stage_fields_x
+  Value: ('Stage fields X', 1)
+Key: ap_stage_fields_y
+  Value: ('Stage fields Y', 1)
+Key: ap_stage_goto_field_x
+  Value: ('Stage goto field X', 1)
+Key: ap_stage_goto_field_y
+  Value: ('Stage goto field Y', 1)
+Key: ap_stage_goto_m
+  Value: ('Stage goto M', 0.0, 'mm')
+Key: ap_stage_goto_r
+  Value: ('Stage goto R', 236.8, '°')
+Key: ap_stage_goto_t
+  Value: ('Stage goto T', 0.0, '°')
+Key: ap_stage_goto_x
+  Value: ('Stage goto X', 49.406, 'mm')
+Key: ap_stage_goto_y
+  Value: ('Stage goto Y', 67.545, 'mm')
+Key: ap_stage_goto_z
+  Value: ('Stage goto Z', 28.156, 'mm')
+Key: ap_stage_high_m
+  Value: ('Stage high M', 0.0, 'mm')
+Key: ap_stage_high_r
+  Value: ('Stage high R', 380.0, '°')
+Key: ap_stage_high_t
+  Value: ('Stage high T', 90.0, '°')
+Key: ap_stage_high_x
+  Value: ('Stage high X', 125.0, 'mm')
+Key: ap_stage_high_y
+  Value: ('Stage high Y', 100.0, 'mm')
+Key: ap_stage_high_z
+  Value: ('Stage high Z', 35.0, 'mm')
+Key: ap_stage_low_m
+  Value: ('Stage low M', 0.0, 'mm')
+Key: ap_stage_low_r
+  Value: ('Stage low R', -380.0, '°')
+Key: ap_stage_low_t
+  Value: ('Stage low T', -1.0, '°')
+Key: ap_stage_low_x
+  Value: ('Stage low X', 0.0, 'mm')
+Key: ap_stage_low_y
+  Value: ('Stage low Y', 0.0, 'mm')
+Key: ap_stage_low_z
+  Value: ('Stage low Z', 0.0, 'mm')
+Key: ap_stage_scan_angle
+  Value: ('Stage scan angle', 0.0, '°')
+Key: ap_stage_vector_m
+  Value: ('Stage Vector M', 0.0, '%')
+Key: ap_stage_vector_r
+  Value: ('Stage vector R', 0.0, '%')
+Key: ap_stage_vector_t
+  Value: ('Stage vector T', 0.0, '%')
+Key: ap_stage_vector_x
+  Value: ('Stage vector X', 0.0, '%')
+Key: ap_stage_vector_y
+  Value: ('Stage vector Y', 0.0, '%')
+Key: ap_stage_vector_z
+  Value: ('Stage vector Z', 0.0, '%')
+Key: ap_stage_xm_angle
+  Value: ('Stage X+M Angle', 0.0, '°')
+Key: ap_stage_xm_r
+  Value: ('Stage X+M Rotation', 0.0, '°')
+Key: ap_stageangle
+  Value: ('Stage Angle', 159.3, '°')
+Key: ap_stig_cal_x
+  Value: ('Stig. Cal X', 0.0, '%')
+Key: ap_stig_cal_y
+  Value: ('Stig. Cal Y', 0.0, '%')
+Key: ap_stig_x
+  Value: ('Stigmation X', -11.1, '%')
+Key: ap_stig_y
+  Value: ('Stigmation Y', -3.4, '%')
+Key: ap_system_vac
+  Value: ('System Vacuum', 8.16e-07, 'mbar')
+Key: ap_test_n
+  Value: ('Test No.', 0)
+Key: ap_test_val
+  Value: ('Test Val', 0.0)
+Key: ap_tilt_align_x
+  Value: ('Tilt Align X', 0.0, '%')
+Key: ap_tilt_align_y
+  Value: ('Tilt Align Y', 0.0, '%')
+Key: ap_tilt_angle
+  Value: ('Tilt Angle', 0.0, '°')
+Key: ap_tilt_axis
+  Value: ('Tilt Axis', 0.0, '°')
+Key: ap_time
+  Value: ('Time', '21:13:37')
+Key: ap_user_max_eht
+  Value: ('User Max EHT', 30.0, 'kV')
+Key: ap_usermaxcurrent
+  Value: ('Fil I (Usermax)', 4.0, 'A')
+Key: ap_v_0
+  Value: ('V 1', 0.0, 'nm')
+Key: ap_v_1
+  Value: ('V 2', 0.0, 'nm')
+Key: ap_v_2
+  Value: ('V 3', 0.0, 'nm')
+Key: ap_v_3
+  Value: ('V 4', 0.0, 'nm')
+Key: ap_v_4
+  Value: ('V 5', 0.0, 'nm')
+Key: ap_v_5
+  Value: ('V 6', 0.0, 'nm')
+Key: ap_v_6
+  Value: ('V 7', 0.0, 'nm')
+Key: ap_v_7
+  Value: ('V 8', 0.0, 'nm')
+Key: ap_v_8
+  Value: ('V 9', 0.0, 'nm')
+Key: ap_v_9
+  Value: ('V 10', 0.0, 'nm')
+Key: ap_vac_ready_at
+  Value: ('Vac Ready @', 2e-05, 'mbar')
+Key: ap_vp_limit
+  Value: ('VP LaB6 Limit', 100, 'Pa')
+Key: ap_vpse2_bias
+  Value: ('VPSE Bias', 60.0, '%')
+Key: ap_water_temp
+  Value: ('EO Temp', 24.0, '°C')
+Key: ap_water_temp_limit
+  Value: ('EO Temp Limit', 35.0, '°C')
+Key: ap_wd
+  Value: ('WD', 2.7, 'mm')
+Key: ap_wd_decl
+  Value: ('Decl cal 1', 0.0)
+Key: ap_wd_save
+  Value: ('wd saved for beam decel', 10.0, 'mm')
+Key: ap_white_detect
+  Value: ('White Threshold', 100.0, '%')
+Key: ap_width
+  Value: ('Width', 3.241, 'µm')
+Key: ap_xtalk12
+  Value: ('Xtalk12', 0.0)
+Key: ap_xtalk21
+  Value: ('Xtalk21', 0.0)
+Key: ap_zoom_factor
+  Value: ('Zoom factor', 2.0)
+Key: ap_zoompos_x
+  Value: ('Zoom Posn X', 128)
+Key: ap_zoompos_y
+  Value: ('Zoom Posn Y', 192)
+Key: dp_4qbsd
+  Value: ('BSD', 'Absent')
+Key: dp_4qbsd_gain
+  Value: ('BSD Gain', 'High')
+Key: dp_4qbsd_q1
+  Value: ('Q1', False)
+Key: dp_4qbsd_q2
+  Value: ('Q2', False)
+Key: dp_4qbsd_q3
+  Value: ('Q3', False)
+Key: dp_4qbsd_q4
+  Value: ('Q4', False)
+Key: dp_4qbsd_q5
+  Value: ('Q5', False)
+Key: dp_4qbsd_visible
+  Value: ('BSD Fast', False)
+Key: dp_all_zones
+  Value: ('All Zones', False)
+Key: dp_anode
+  Value: ('Anode Spacer', 'High KV')
+Key: dp_anode_aperture_changer
+  Value: ('Anode Aperture Changer', 'Absent')
+Key: dp_aperture
+  Value: ('Aperture No.', 1)
+Key: dp_aperture_state
+  Value: ('Aperture', 'Clean')
+Key: dp_ar_gun
+  Value: ('Argon Gun', 'Absent')
+Key: dp_ar_gun_state
+  Value: ('Argon Gun is', False)
+Key: dp_ar_mfcvalve
+  Value: ('Argon MFC Valve', 'Closed')
+Key: dp_ar_mill
+  Value: ('Argon Mill', False)
+Key: dp_ar_scan
+  Value: ('Argon Scan', False)
+Key: dp_auto_video
+  Value: ('Auto BC', False)
+Key: dp_bakeout_full
+  Value: ('full service bakeout', False)
+Key: dp_beam_blanked
+  Value: ('Beam Blanked', True)
+Key: dp_beamsleeve_fitted
+  Value: ('Beam sleeve fitted', False)
+Key: dp_beamsleeve_position
+  Value: ('Beam sleeve', 'Out')
+Key: dp_best_aperture
+  Value: ('Best Aperture', True)
+Key: dp_bsd_auto
+  Value: ('BSD Auto Range', True)
+Key: dp_bsd_autolevel_mode
+  Value: ('BSD Autolevel Mode', 'Normal')
+Key: dp_bsd_fast_scan
+  Value: ('BSD Fast Scan', False)
+Key: dp_bsd_mode
+  Value: ('BSD Mode', 'Topo')
+Key: dp_bsd_n_on_p
+  Value: ('BSD Invert', False)
+Key: dp_c3_rot_correction
+  Value: ('C3 Rot Corrn.', True)
+Key: dp_c3_rot_sign
+  Value: ('C3 Rotn Sign', '+')
+Key: dp_c3reversal
+  Value: ('C3 Reversal', 'Normal')
+Key: dp_calibration
+  Value: ('Calibration', 'Disabled')
+Key: dp_calmode
+  Value: ('Cal Mode', False)
+Key: dp_cc_on_gis_channel
+  Value: ('GIS Channel with CC', 'None')
+Key: dp_cc_status
+  Value: ('CC Status', False)
+Key: dp_cc_type
+  Value: ('CC Type', 'None')
+Key: dp_channel
+  Value: ('Display', 0)
+Key: dp_cls_valve
+  Value: ('C.L.S.Valve', 'Closed')
+Key: dp_colour_mode
+  Value: ('Colour Mode', False)
+Key: dp_column_chamber_valve
+  Value: ('Column Chamber valve', 'Open')
+Key: dp_column_isolated
+  Value: ('Column Isolated', False)
+Key: dp_column_mode
+  Value: ('Column Mode', 'High Resolution')
+Key: dp_column_pumping
+  Value: ('Column pumping', 'Ready')
+Key: dp_column_type
+  Value: ('Column', '1500VP')
+Key: dp_compucentric_mode
+  Value: ('Compuc. Mode', False)
+Key: dp_condenser
+  Value: ('Condenser Normal', 'Normal')
+Key: dp_condenser_reversed
+  Value: ('Condenser Reversed', False)
+Key: dp_conjugate
+  Value: ('OptiBeam conjugate', False)
+Key: dp_contrast_enhancement
+  Value: ('Contrast Enhanced', False)
+Key: dp_coolstage_type
+  Value: ('CoolStage Type', 'Cold')
+Key: dp_crosshairs
+  Value: ('Crosshairs', False)
+Key: dp_custom_holder
+  Value: ('Custom Holder', False)
+Key: dp_dc_sem_state
+  Value: ('Sem drift status', 'No Reference')
+Key: dp_detector_channel
+  Value: ('Signal A', 'InLens')
+Key: dp_detector_fast_scan
+  Value: ('Noise reduction for fast scanspeeds', False)
+Key: dp_detector_type
+  Value: ('Detector', 'InLens')
+Key: dp_display_channels
+  Value: ('Channels', 1)
+Key: dp_double_deflection_state
+  Value: ('Double Deflection State', False)
+Key: dp_dual_monitor
+  Value: ('Dual Monitor', False)
+Key: dp_dwell_time
+  Value: ('Dwell Time', 100, 'ns')
+Key: dp_dynfocus
+  Value: ('Dyn.Focus', False)
+Key: dp_ebbu_mode
+  Value: ('Beam Blanker Mode', 'Blanked')
+Key: dp_eht_reset
+  Value: ('EHT spurious reset', False)
+Key: dp_eht_tripped
+  Value: ('EHT tripped', False)
+Key: dp_eht_vac_ready
+  Value: ('EHT Vac ready', True)
+Key: dp_ehtcommsfail
+  Value: ('EHT Comms Fail', False)
+Key: dp_electron_counting
+  Value: ('Electron Counting', False)
+Key: dp_end_detection
+  Value: ('End Detection', False)
+Key: dp_ep_mode
+  Value: ('EP Gas', 'Air')
+Key: dp_epse_auto
+  Value: ('EPSE Auto Range', False)
+Key: dp_epse_bandwidth
+  Value: ('EPSE Bandwidth', 'DC')
+Key: dp_epse_electrode
+  Value: ('EPSE Electrode', 'Ring')
+Key: dp_epse_gain
+  Value: ('EPSE Gain', 'Low')
+Key: dp_ext_scan_control
+  Value: ('Ext.Scan Control', False)
+Key: dp_extractor_trip
+  Value: ('Extractor Trip', False)
+Key: dp_fast_mode
+  Value: ('Fast Mode', False)
+Key: dp_fib_blanked
+  Value: ('FIB Blanked', False)
+Key: dp_fib_column
+  Value: ('FIB Column', 'None')
+Key: dp_fib_error
+  Value: ('FIB Error', 'None')
+Key: dp_fib_ext_scan_mode
+  Value: ('FIB Ext Scan Mode', False)
+Key: dp_fib_ext_scan_select
+  Value: ('FIB Ext Scan Select', 'Ext 0')
+Key: dp_fib_external_polarity
+  Value: ('FIB External Polarity', 0)
+Key: dp_fib_extractor_conflict
+  Value: ('FIB Extractor Conflict', False)
+Key: dp_fib_fg_blanked
+  Value: ('Flood Gun Blanked', False)
+Key: dp_fib_fg_extractor_actual
+  Value: ('Flood Gun Extractor Actual State', False)
+Key: dp_fib_fg_extractor_target
+  Value: ('Extractor Target State', False)
+Key: dp_fib_fg_fitted
+  Value: ('Flood Gun Fitted', False)
+Key: dp_fib_fg_floodgun_type
+  Value: ('Flood Gun Type', 'Flood Gun Unknown Type')
+Key: dp_fib_fg_interlock
+  Value: ('Flood Gun Interlock', False)
+Key: dp_fib_fg_mode_actual
+  Value: ('Flood Gun Actual Mode', 'Low Energy Mode')
+Key: dp_fib_fg_mode_target
+  Value: ('Flood Gun Mode Target', 'Low Energy Mode')
+Key: dp_fib_fg_remoting_actual
+  Value: ('Flood Gun Remoting Actual', 'Flood Gun Normal')
+Key: dp_fib_fg_remoting_target
+  Value: ('Remoting Target', 'Flood Gun Normal')
+Key: dp_fib_fg_status
+  Value: ('Flood Gun Status', False)
+Key: dp_fib_gun_state
+  Value: ('FIB Gun State', False)
+Key: dp_fib_gun_valve
+  Value: ('FIB Gun Valve', 'Closed')
+Key: dp_fib_image_probe
+  Value: ('FIB Image Probe', 'Undefined')
+Key: dp_fib_imaging
+  Value: ('FIB Imaging', 'SEM')
+Key: dp_fib_lock_mag
+  Value: ('FIB Lock Mags', False)
+Key: dp_fib_mag_range
+  Value: ('FIB Mag Range', 0)
+Key: dp_fib_mill_probe
+  Value: ('FIB Milling Probe', 'Undefined')
+Key: dp_fib_mode
+  Value: ('FIB Mode', 'Imaging')
+Key: dp_fib_pneumatic_prep_state
+  Value: ('FIB preparation for pneumatic', 'FIB ready for system vent')
+Key: dp_fib_present
+  Value: ('FIB Present', False)
+Key: dp_fib_probe
+  Value: ('FIB Probe', 'Undefined')
+Key: dp_fib_scan
+  Value: ('FIB Scan', 'Continuous')
+Key: dp_fib_suppressor
+  Value: ('FIB Suppressor is', 'Absent')
+Key: dp_fib_track_wd
+  Value: ('FIB Tracking WD', False)
+Key: dp_fib_wide_view
+  Value: ('FIB Wide View', False)
+Key: dp_field_mode
+  Value: ('Field Mode', False)
+Key: dp_fil_blown
+  Value: ('Filament blown', False)
+Key: dp_filament_type
+  Value: ('Filament Type', 'FE FEI')
+Key: dp_final_lens
+  Value: ('Final Lens', '1500: Gemini')
+Key: dp_fisheye_fitted
+  Value: ('Fish-Eye Fitted', True)
+Key: dp_fisheye_mode
+  Value: ('Fisheye Mode', False)
+Key: dp_fixed_aperture
+  Value: ('VP Aperture', True)
+Key: dp_fixed_aperture2
+  Value: ('EP Aperture', 'None fitted')
+Key: dp_flood_state
+  Value: ('Flood State', 'Idle')
+Key: dp_frame_grabber
+  Value: ('Frame Grabber', 'Matrix Titan')
+Key: dp_freeze_blanks
+  Value: ('Freeze Blanks', True)
+Key: dp_freeze_on
+  Value: ('Freeze on', 'End Frame')
+Key: dp_freeze_status
+  Value: ('Freeze', 'Idle')
+Key: dp_frozen
+  Value: ('Image', 'Frozen')
+Key: dp_gate_valve
+  Value: ('WDX Gate valve', 'Closed')
+Key: dp_gate_valve_position
+  Value: ('WDX Gate Valve posn', 'OK')
+Key: dp_gemini_large_beamshift
+  Value: ('Gemini large beam shift', False)
+Key: dp_gis_channel
+  Value: ('GIS Channel', 'None')
+Key: dp_gis_heating_status_1
+  Value: ('GIS Heating Status Channel 1', 'GIS Not Heating')
+Key: dp_gis_shutdown_state
+  Value: ('GIS Shutdown State', 'Normal')
+Key: dp_hese2_fitted
+  Value: ('HE-SE2 Fitted', False)
+Key: dp_high_current
+  Value: ('High Current', False)
+Key: dp_high_resolution_mode
+  Value: ('High Resolution Mode', False)
+Key: dp_hp_status
+  Value: ('Chamber Status', 'at HV')
+Key: dp_humidity_valve
+  Value: ('Humidity Valve', 'Closed')
+Key: dp_hv_at_shutdown
+  Value: ('Go to HV @ Shutdown', False)
+Key: dp_igp_enabled
+  Value: ('IGP Enabled', True)
+Key: dp_image_detect
+  Value: ('Image Detect', 'Black')
+Key: dp_image_saved
+  Value: ('Image saved', True)
+Key: dp_image_store
+  Value: ('Store resolution', '1024 * 768')
+Key: dp_implied_detector
+  Value: ('Signal B', 'SE2')
+Key: dp_implied_invert
+  Value: ('Invert B', False)
+Key: dp_inlens_duo_mode
+  Value: ('InlensDuo Mode', 'SE')
+Key: dp_input_lut_mode
+  Value: ('Input LUT Mode', 'Transparent')
+Key: dp_invert
+  Value: ('Invert A', False)
+Key: dp_ion_detector_mode
+  Value: ('SESI Mode', 'SE')
+Key: dp_jazz_bandwidth
+  Value: ('Jazz Bandwidth', 'Low')
+Key: dp_jazz_gain
+  Value: ('Jazz Gain', 'Low')
+Key: dp_large_beamshift
+  Value: ('Large Beam Shift', False)
+Key: dp_left_frozen
+  Value: ('All Frozen', True)
+Key: dp_line_scan
+  Value: ('Line Scan', False)
+Key: dp_low_kv_lens
+  Value: ('Low KV Lens', 'Absent')
+Key: dp_low_mag
+  Value: ('Low Mag', False)
+Key: dp_lut_mode
+  Value: ('Display LUT mode', 'Normal')
+Key: dp_mag_cal
+  Value: ('Mag State', 'calibrated')
+Key: dp_mag_range
+  Value: ('Mag Range', 3)
+Key: dp_main_detector
+  Value: ('Control', 'Signal A')
+Key: dp_mains_sync
+  Value: ('Mains Sync', 'Single Edge')
+Key: dp_mgs_evac_state
+  Value: ('MGS Evacuation State', False)
+Key: dp_mixing
+  Value: ('Mixing', False)
+Key: dp_monitor
+  Value: ('Monitor', '19/21 inch')
+Key: dp_nano_tips
+  Value: ('Nano Tips', 'Absent')
+Key: dp_newfilament
+  Value: ('New Filament', False)
+Key: dp_noise_reduction
+  Value: ('Noise Reduction', 'Frame Int. Done')
+Key: dp_num_regions
+  Value: ('Num. Regions', 0)
+Key: dp_operating_mode
+  Value: ('Operating Mode', 'Normal')
+Key: dp_opt_aperture
+  Value: ('Opt.Aperture', 2)
+Key: dp_optibeam
+  Value: ('OptiBeam Is', False)
+Key: dp_optibeam_state
+  Value: ('OptiBeam', False)
+Key: dp_optimode
+  Value: ('OptiBeam Mode', 'Resolution')
+Key: dp_optiprobe
+  Value: ('OptiProbe', False)
+Key: dp_optiresmode
+  Value: ('OptiBeam Res Mode', 'manual')
+Key: dp_out_dev
+  Value: ('Output dev', '19/21 inch display')
+Key: dp_out_type
+  Value: ('Output To', 'Display/File')
+Key: dp_output_reduction
+  Value: ('Output Reduction', 1)
+Key: dp_partial_vent
+  Value: ('Partial Vent on Standby', False)
+Key: dp_peltier
+  Value: ('Peltier', False)
+Key: dp_peltier_photo
+  Value: ('Peltier Photo', False)
+Key: dp_peltier_type
+  Value: ('Peltier Type', 'Deben')
+Key: dp_pixel_size
+  Value: ('Pix Size state', 'calibrated')
+Key: dp_pneumatic_device_in_use
+  Value: ('Pneumatic Device in use', 'None')
+Key: dp_quattro_bandwidth
+  Value: ('BSD Bandwidth', 'DC')
+Key: dp_recipe
+  Value: ('Recipe', 'Idle')
+Key: dp_right_frozen
+  Value: ('Right Frozen', True)
+Key: dp_runupstate
+  Value: ('Beam State', 'Beam On')
+Key: dp_safe_stem_valid
+  Value: ('Safe STEM Valid', False)
+Key: dp_sample_holder
+  Value: ('Sample Holder', 'Carousel 9x 10mm')
+Key: dp_saturate_at
+  Value: ('Saturate at', 'Second peak')
+Key: dp_scan_orthog
+  Value: ('Scan Orthog', True)
+Key: dp_scan_rot
+  Value: ('Scan Rot', True)
+Key: dp_scangen
+  Value: ('Scan Gen', 'Present')
+Key: dp_scangen_type
+  Value: ('ScanGen Type', 'L-REM')
+Key: dp_scanrate
+  Value: ('Scan Speed', 8)
+Key: dp_scd_auto
+  Value: ('SCD Auto Range', False)
+Key: dp_scd_bandwidth
+  Value: ('SCD Bandwidth', 'DC')
+Key: dp_scd_gain
+  Value: ('SCD Gain', 'Low')
+Key: dp_scint
+  Value: ('Scint.', True)
+Key: dp_scm_range
+  Value: ('SCM range', '3->10 pA')
+Key: dp_scm_status
+  Value: ('SCM Status', False)
+Key: dp_sem
+  Value: ('Sem', '1550VP')
+Key: dp_si_noise_reduction
+  Value: ('SmartImage Noise Reduction', False)
+Key: dp_si_source
+  Value: ('SI source-hidden', 0)
+Key: dp_signalaz0
+  Value: ('Signal A Z0', 'InLens')
+Key: dp_signalaz1
+  Value: ('Signal A Z1', 'InLens')
+Key: dp_signalaz2
+  Value: ('Signal A Z2', 'InLens')
+Key: dp_signalaz3
+  Value: ('Signal A Z3', 'InLens')
+Key: dp_spot
+  Value: ('Spot', False)
+Key: dp_stage_angle
+  Value: ('Stage Angle corrn.', True)
+Key: dp_stage_bias
+  Value: ('Stage bias low voltage', False)
+Key: dp_stage_bias_carassel_fitted
+  Value: ('Beam deceleration carousel', False)
+Key: dp_stage_bias_high
+  Value: ('Beam deceleration', False)
+Key: dp_stage_bias_hv_fitted
+  Value: ('Variable stage bias fitted', False)
+Key: dp_stage_bias_mode
+  Value: ('Stage bias mode', 'contrast mode')
+Key: dp_stage_comms_fail
+  Value: ('Stage comms fail', False)
+Key: dp_stage_init
+  Value: ('Stage Initialised', True)
+Key: dp_stage_is
+  Value: ('Stage Is', 'Idle')
+Key: dp_stage_tilted
+  Value: ('Stage Tilt', 'In Y')
+Key: dp_stem_auto
+  Value: ('STEM Auto', False)
+Key: dp_stem_fast
+  Value: ('STEM Fast', False)
+Key: dp_stem_gain
+  Value: ('STEM Gain', 'Low')
+Key: dp_stem_q1
+  Value: ('STEM Q1', False)
+Key: dp_stem_q2
+  Value: ('STEM Q2', False)
+Key: dp_stem_q3
+  Value: ('STEM Q3', False)
+Key: dp_stem_q4
+  Value: ('STEM Q4', False)
+Key: dp_stem_q5
+  Value: ('STEM Q5', False)
+Key: dp_stem_seg_mode
+  Value: ('STEM Seg. Mode', False)
+Key: dp_stigbalance
+  Value: ('Stig Balance', False)
+Key: dp_supervisor
+  Value: ('Supervisor', 'Disabled')
+Key: dp_tandem_deceleration
+  Value: ('Tandem deceleration', False)
+Key: dp_tilt_correction
+  Value: ('Tilt Corrn.', False)
+Key: dp_tilted
+  Value: ('Stage Tilted', False)
+Key: dp_track_z
+  Value: ('Track Z', False)
+Key: dp_use_epd
+  Value: ('Use End Point Detection', False)
+Key: dp_use_ref_mag
+  Value: ('Reference Mag', 'Out Dev.')
+Key: dp_user
+  Value: ('User', 'Idle')
+Key: dp_user_align
+  Value: ('User Align', True)
+Key: dp_user_level
+  Value: ('User Level', 'Novice')
+Key: dp_user_mag_cal
+  Value: ('User Calibration', False)
+Key: dp_vac_comms_fail
+  Value: ('Vac comms fail', False)
+Key: dp_vac_mode
+  Value: ('Vacuum Mode', 'High Vacuum')
+Key: dp_vacstatus
+  Value: ('Vac Status', 'Ready')
+Key: dp_vent_inhibited
+  Value: ('Venting inhibited', True)
+Key: dp_vent_invalid_reason
+  Value: ('Vent inhibit', 'Beam Present')
+Key: dp_vp_optibeam
+  Value: ('VP Optibeam', False)
+Key: dp_vpse
+  Value: ('VPSE detector', 'Present')
+Key: dp_vpse2
+  Value: ('VPSE-G3 Fitted', 'Absent')
+Key: dp_water_ok
+  Value: ('Water OK', True)
+Key: dp_windowing
+  Value: ('Windowing', False)
+Key: dp_z0
+  Value: ('Zone 0', 'Frozen')
+Key: dp_z1
+  Value: ('Zone 1', 'Frozen')
+Key: dp_zone
+  Value: ('Zone', 0)
+Key: dp_zoom
+  Value: ('Zoom', False)
+Key: sv_file_name
+  Value: ('File Name', 'M34_r2_tp1_jj10.tif')
+Key: sv_image_path
+  Value: ('Images', 'f:\\leo sem images\\rupeshknn\\testjj_dec_8_2025\\')
+Key: sv_operator
+  Value: ('Operator', '')
+Key: sv_sample_id
+  Value: ('Sample ID', '')
+Key: sv_serial_number
+  Value: ('Serial No.', '1550VP-21-15')
+Key: sv_user_name
+  Value: ('User Name', 'RUPESHKNN')
+Key: sv_user_text
+  Value: ('User Text', '')
+Key: sv_version
+  Value: ('Version', 'V06.00.00.00 : 09-Jun-16')

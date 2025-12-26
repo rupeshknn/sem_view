@@ -77,9 +77,10 @@ def get_metadata_context(file_path):
                     context['Tool'] = get_val('sv_serial_number') or get_val('sv_instrument_id') or "Unknown"
                     
                     # Voltage (EHT)
-                    eht = get_val('ap_eht') or get_val('ap_voltage') or get_val('ap_highvoltage')
+                    # User confirmed ap_actualkv is the correct key: ('EHT', 10.0, 'kV')
+                    eht = get_val('ap_actualkv') or get_val('ap_eht') or get_val('ap_voltage') or get_val('ap_highvoltage')
                     if eht:
-                        context['EHT'] = f"{eht} kV"
+                        context['Beam Voltage'] = f"{eht} kV"
                     
                     # Aperture
                     aperture = get_val('ap_aperture_size') or get_val('dp_opt_aperture')
@@ -96,7 +97,20 @@ def get_metadata_context(file_path):
                     # Mag
                     mag = get_val('ap_mag') or get_val('ap_magnification')
                     if mag:
-                        context['Mag'] = f"{mag} x"
+                        # Fix "K X x" issue. If mag is a string and has "X", don't append "x"
+                        if isinstance(mag, str) and ('X' in mag or 'x' in mag):
+                            context['Mag'] = mag
+                        else:
+                            context['Mag'] = f"{mag} x"
+
+                    # Date/Time
+                    date_val = get_val('ap_date')
+                    time_val = get_val('ap_time')
+                    if date_val:
+                        if time_val:
+                            context['Date'] = f"{date_val} {time_val}"
+                        else:
+                            context['Date'] = date_val
                         
                     # Author
                     author = get_val('sv_user_name') or get_val('sv_operator')

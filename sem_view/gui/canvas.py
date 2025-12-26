@@ -168,6 +168,9 @@ class ImageCanvas(QGraphicsView):
                     self.current_polygon_item.setPolygon(QPolygonF(self.polygon_points))
         elif event.button() == Qt.RightButton:
             if self.mode == self.MODE_POLYGON:
+                # Add the current point as the final vertex
+                pos = self.mapToScene(event.pos())
+                self.polygon_points.append(pos)
                 self.finish_polygon()
         elif event.button() == Qt.MiddleButton:
             # Start panning
@@ -220,6 +223,10 @@ class ImageCanvas(QGraphicsView):
         if self.temp_line:
             self.scene.removeItem(self.temp_line)
             self.temp_line = None
+            
+        # Update visual polygon to include the last point (if added via right-click)
+        if self.current_polygon_item:
+            self.current_polygon_item.setPolygon(QPolygonF(self.polygon_points))
             
         # Calculate Area
         poly = QPolygonF(self.polygon_points)

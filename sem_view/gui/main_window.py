@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QMessageBox, QListWidget, QListWidgetItem
 from PySide6.QtGui import QAction, QPixmap, QImage, QPainter, QColor
 from PySide6.QtCore import Qt
 import tifffile
@@ -55,9 +55,13 @@ class MainWindow(QMainWindow):
         menu = self.menuBar()
         file_menu = menu.addMenu("File")
         
-        open_action = QAction("Open", self)
+        open_action = QAction("Open File", self)
         open_action.triggered.connect(self.open_file)
         file_menu.addAction(open_action)
+
+        open_folder_action = QAction("Open Folder", self)
+        open_folder_action.triggered.connect(self.open_folder)
+        file_menu.addAction(open_folder_action)
         
         save_action = QAction("Save Annotated", self)
         save_action.triggered.connect(self.save_annotated)
@@ -73,7 +77,17 @@ class MainWindow(QMainWindow):
         self.metadata_text = QTextEdit()
         self.metadata_text.setReadOnly(True)
         self.metadata_dock.setWidget(self.metadata_text)
+        self.metadata_dock.setWidget(self.metadata_text)
         self.addDockWidget(Qt.RightDockWidgetArea, self.metadata_dock)
+
+        # File Browser Dock
+        self.file_dock = QDockWidget("File Browser", self)
+        self.file_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+        self.file_list = QListWidget()
+        self.file_list.itemClicked.connect(self.load_file_from_list)
+        self.file_dock.setWidget(self.file_list)
+        self.addDockWidget(Qt.LeftDockWidgetArea, self.file_dock)
+        self.file_dock.hide() # Hide initially
         
         self.current_file_path = None
         self.original_image_data = None
@@ -93,6 +107,41 @@ class MainWindow(QMainWindow):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open SEM Image", "", "TIFF Files (*.tif *.tiff);;All Files (*)")
         if file_path:
             self.load_image(file_path)
+            # If opening a single file, we might want to hide the file browser or clear it?
+            # For now, let's just leave it as is, or maybe populate it with just that file?
+            # Let's keep it simple: Open File just opens the file.
+
+    def open_folder(self):
+        folder_path = QFileDialog.getExistingDirectory(self, "Open Folder with SEM Images")
+        if folder_path:
+            self.populate_file_list(folder_path)
+            self.file_dock.show()
+
+    def populate_file_list(self, folder_path):
+        self.file_list.clear()
+        self.current_folder = folder_path
+        
+        # Find TIFF files
+        files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.tif', '.tiff'))]
+        files.sort()
+        
+        if not files:
+            self.status_bar.showMessage(f"No TIFF files found in {folder_path}")
+            return
+
+        for f in files:
+            item = QListWidgetItem(f)
+            self.file_list.addItem(item)
+            
+        self.status_bar.showMessage(f"Found {len(files)} images in {folder_path}")
+
+    def load_file_from_list(self, item):
+        if not hasattr(self, 'current_folder'):
+            return
+            
+        file_name = item.text()
+        file_path = os.path.join(self.current_folder, file_name)
+        self.load_image(file_path)
 
     def load_image(self, file_path):
         try:
