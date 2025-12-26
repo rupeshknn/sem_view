@@ -7,4 +7,4 @@ A Python application for viewing and analyzing Scanning Electron Microscope (SEM
 - Standalone Windows executable.
 
 ## Example Output
-![Annotated Sample](annotated_sample.tif)
+![Annotated Sample](Screen.png)
