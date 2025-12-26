@@ -5,7 +5,6 @@ __pycache__/
 .idea/
 
 # Generated files
-annotated_sample.tif
 metadata_dump.json
 tags.txt
 keys.txt
