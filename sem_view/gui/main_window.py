@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QListWidget, QListWidgetItem
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QListWidget, QListWidgetItem, QStyle
 from PySide6.QtGui import QAction, QPixmap, QImage, QPainter, QColor
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QSize
 import tifffile
 import numpy as np
 import os
@@ -33,43 +33,60 @@ class MainWindow(QMainWindow):
         self.status_bar.showMessage("Select a tool.  |  🖱️ Middle-drag to pan  |  🔍 Wheel to zoom")
 
         # Toolbar
-        self.toolbar = QToolBar("Tools")
+        self.toolbar = QToolBar("Main Toolbar")
+        self.toolbar.setIconSize(QSize(32, 32)) # Larger icons
+        self.toolbar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon) # Text under icon for clarity
         self.addToolBar(self.toolbar)
         
-        self.measure_action = QAction("📏 Measure", self)
+        # File Actions
+        open_action = QAction("Open File", self)
+        open_action.setIcon(self.style().standardIcon(QStyle.SP_DialogOpenButton))
+        open_action.triggered.connect(self.open_file)
+        self.toolbar.addAction(open_action)
+
+        open_folder_action = QAction("Open Folder", self)
+        open_folder_action.setIcon(self.style().standardIcon(QStyle.SP_DirOpenIcon))
+        open_folder_action.triggered.connect(self.open_folder)
+        self.toolbar.addAction(open_folder_action)
+        
+        save_action = QAction("Save", self)
+        save_action.setIcon(self.style().standardIcon(QStyle.SP_DialogSaveButton))
+        save_action.triggered.connect(self.save_annotated)
+        self.toolbar.addAction(save_action)
+
+        self.toolbar.addSeparator()
+
+        # Tool Actions
+        # Load custom icons
+        ruler_icon_path = os.path.join(os.path.dirname(__file__), 'resources', 'ruler.png')
+        polygon_icon_path = os.path.join(os.path.dirname(__file__), 'resources', 'polygon.png')
+        
+        self.measure_action = QAction("Measure", self)
+        if os.path.exists(ruler_icon_path):
+            self.measure_action.setIcon(QPixmap(ruler_icon_path))
         self.measure_action.setCheckable(True)
         self.measure_action.setChecked(True)
         self.measure_action.triggered.connect(lambda: self.set_mode(ImageCanvas.MODE_MEASURE))
         self.toolbar.addAction(self.measure_action)
         
-        self.polygon_action = QAction("⬠ Area", self)
+        self.polygon_action = QAction("Area", self)
+        if os.path.exists(polygon_icon_path):
+            self.polygon_action.setIcon(QPixmap(polygon_icon_path))
         self.polygon_action.setCheckable(True)
         self.polygon_action.triggered.connect(lambda: self.set_mode(ImageCanvas.MODE_POLYGON))
         self.toolbar.addAction(self.polygon_action)
         
-        self.clear_action = QAction("🗑 Clear", self)
+        self.clear_action = QAction("Clear", self)
+        self.clear_action.setIcon(self.style().standardIcon(QStyle.SP_DialogDiscardButton))
         self.clear_action.triggered.connect(self.canvas.clear_measurements)
         self.toolbar.addAction(self.clear_action)
-
-        # Menu
-        menu = self.menuBar()
-        file_menu = menu.addMenu("File")
         
-        open_action = QAction("Open File", self)
-        open_action.triggered.connect(self.open_file)
-        file_menu.addAction(open_action)
-
-        open_folder_action = QAction("Open Folder", self)
-        open_folder_action.triggered.connect(self.open_folder)
-        file_menu.addAction(open_folder_action)
+        self.toolbar.addSeparator()
         
-        save_action = QAction("Save Annotated", self)
-        save_action.triggered.connect(self.save_annotated)
-        file_menu.addAction(save_action)
-
         exit_action = QAction("Exit", self)
+        exit_action.setIcon(self.style().standardIcon(QStyle.SP_DialogCloseButton))
         exit_action.triggered.connect(self.close)
-        file_menu.addAction(exit_action)
+        self.toolbar.addAction(exit_action)
         
         # Metadata Dock
         self.metadata_dock = QDockWidget("Image Context", self)
