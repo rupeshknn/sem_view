@@ -1,4 +1,5 @@
 import tifffile
+import json
 
 def get_pixel_scale(file_path):
     """
@@ -115,6 +116,31 @@ def get_metadata_context(file_path):
                     author = get_val('sv_user_name') or get_val('sv_operator')
                     if author:
                         context['Author'] = author
+
+            # Check for ImageDescription (Tag 270) for measurements
+            if 270 in page.tags:
+                desc = page.tags[270].value
+                if desc:
+                    try:
+                        # Try to parse as JSON
+                        data = json.loads(desc)
+                        if isinstance(data, dict):
+                            if 'measurements' in data:
+                                context['Measurements'] = data['measurements']
+                            if 'annotations' in data:
+                                context['Annotations'] = data['annotations']
+                                
+                            # Backfill colors for measurements if missing (for backward compatibility)
+                            if 'Measurements' in context and 'Annotations' in context:
+                                measurements = context['Measurements']
+                                annotations = context['Annotations']
+                                if len(measurements) == len(annotations):
+                                    for i, m in enumerate(measurements):
+                                        if 'color' not in m:
+                                            m['color'] = annotations[i].get('color', '#000000')
+                    except json.JSONDecodeError:
+                        # Not JSON, maybe just text description
+                        pass
 
     except Exception as e:
         print(f"Error parsing context: {e}")

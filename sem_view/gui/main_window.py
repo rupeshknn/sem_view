@@ -1,10 +1,11 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QListWidget, QListWidgetItem, QStyle
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QListWidget, QListWidgetItem, QStyle, QCheckBox
 from PySide6.QtGui import QAction, QPixmap, QImage, QPainter, QColor
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtCore import Qt, QSize, QTemporaryDir, QRectF
 import tifffile
 import numpy as np
 import os
 import shutil
+import json
 from .canvas import ImageCanvas
 from ..utils.metadata_parser import get_pixel_scale, get_metadata_context
 
@@ -83,6 +84,35 @@ class MainWindow(QMainWindow):
         
         self.toolbar.addSeparator()
         
+        # Save Options
+        # Save Options
+        self.burn_in_checkbox = QCheckBox("Burn-in Annotations", self)
+        self.burn_in_checkbox.setChecked(False) # Default to Active Elements
+        self.burn_in_checkbox.setToolTip("Checked: Annotations are permanently burned into the image pixels (Not editable).\nUnchecked: Annotations are saved as editable vectors (Active Elements).")
+        self.toolbar.addWidget(self.burn_in_checkbox)
+        
+        self.toolbar.addSeparator()
+        
+        self.toolbar.addSeparator()
+        
+        self.toolbar.addSeparator()
+        
+        # Page Navigation
+        self.prev_page_action = QAction("◀", self)
+        self.prev_page_action.triggered.connect(self.prev_page)
+        self.prev_page_action.setEnabled(False)
+        self.toolbar.addAction(self.prev_page_action)
+        
+        self.page_label = QLabel(" Page 1/1 ")
+        self.toolbar.addWidget(self.page_label)
+        
+        self.next_page_action = QAction("▶", self)
+        self.next_page_action.triggered.connect(self.next_page)
+        self.next_page_action.setEnabled(False)
+        self.toolbar.addAction(self.next_page_action)
+
+        self.toolbar.addSeparator()
+        
         exit_action = QAction("Exit", self)
         exit_action.setIcon(self.style().standardIcon(QStyle.SP_DialogCloseButton))
         exit_action.triggered.connect(self.close)
@@ -91,10 +121,22 @@ class MainWindow(QMainWindow):
         # Metadata Dock
         self.metadata_dock = QDockWidget("Image Context", self)
         self.metadata_dock.setAllowedAreas(Qt.RightDockWidgetArea | Qt.LeftDockWidgetArea)
+        
+        self.metadata_widget = QWidget()
+        self.metadata_layout = QVBoxLayout(self.metadata_widget)
+        self.metadata_layout.setContentsMargins(0, 0, 0, 0)
+        
+        # Show Annotations Toggle
+        self.show_annotations_checkbox = QCheckBox("Show Annotations")
+        self.show_annotations_checkbox.setChecked(True)
+        self.show_annotations_checkbox.toggled.connect(self.toggle_annotations_visibility)
+        self.metadata_layout.addWidget(self.show_annotations_checkbox)
+        
         self.metadata_text = QTextEdit()
         self.metadata_text.setReadOnly(True)
-        self.metadata_dock.setWidget(self.metadata_text)
-        self.metadata_dock.setWidget(self.metadata_text)
+        self.metadata_layout.addWidget(self.metadata_text)
+        
+        self.metadata_dock.setWidget(self.metadata_widget)
         self.addDockWidget(Qt.RightDockWidgetArea, self.metadata_dock)
 
         # File Browser Dock
@@ -108,6 +150,14 @@ class MainWindow(QMainWindow):
         
         self.current_file_path = None
         self.original_image_data = None
+        self.image_pages = []
+        self.current_page_index = 0
+        self.current_annotations = None
+        
+        # Temporary Directory (auto-cleaned)
+        self.temp_dir = QTemporaryDir()
+        if not self.temp_dir.isValid():
+            print("Warning: Could not create temporary directory.")
 
     def set_mode(self, mode):
         self.canvas.set_mode(mode)
@@ -165,9 +215,11 @@ class MainWindow(QMainWindow):
             self.current_file_path = file_path
             # Load image data
             with tifffile.TiffFile(file_path) as tif:
-                self.original_image_data = tif.asarray()
+                # Load all pages
+                self.image_pages = [page.asarray() for page in tif.pages]
+                self.current_page_index = 0
                 
-                # Handle metadata
+                # Handle metadata (from first page)
                 pixel_scale = get_pixel_scale(file_path)
                 self.canvas.set_scale(pixel_scale)
                 if pixel_scale:
@@ -178,44 +230,122 @@ class MainWindow(QMainWindow):
                 # Context
                 context = get_metadata_context(file_path)
                 self.display_context(context)
+                
+                # Store annotations if present
+                if 'Annotations' in context:
+                    self.current_annotations = context['Annotations']
+                else:
+                    self.current_annotations = None
+                    
+                # Check if burnt-in
+                is_burnt_in = context.get('is_burnt_in', False)
+                if is_burnt_in:
+                    self.show_annotations_checkbox.setChecked(True)
+                    self.show_annotations_checkbox.setEnabled(False)
+                    self.show_annotations_checkbox.setText("Show Annotations (Burnt-in)")
+                    # Don't restore vectors if burnt-in to avoid duplicates
+                    self.current_annotations = None 
+                else:
+                    self.show_annotations_checkbox.setEnabled(True)
+                    self.show_annotations_checkbox.setText("Show Annotations")
+                    # Restore visibility state
+                    # Default to checked for now, or maybe remember last state?
+                    # Let's keep it checked by default for active elements
+                    self.show_annotations_checkbox.setChecked(True)
 
-            # Normalize and convert to QImage
-            image_data = self.original_image_data
-            if image_data.ndim == 2:
-                height, width = image_data.shape
-                
-                # Normalize to 8-bit
-                if image_data.dtype != np.uint8:
-                    image_data = image_data.astype(np.float32)
-                    image_data = (image_data - image_data.min()) / (image_data.max() - image_data.min()) * 255
-                    image_data = image_data.astype(np.uint8)
-                
-                bytes_per_line = width
-                q_image = QImage(image_data.data, width, height, bytes_per_line, QImage.Format_Grayscale8)
-                pixmap = QPixmap.fromImage(q_image)
-                
-                self.canvas.set_image(pixmap)
-                self.status_bar.showMessage(f"Loaded: {file_path}")
-            else:
-                self.status_bar.showMessage("Error: Only 2D images supported.")
+            self.update_page_controls()
+            self.display_current_page()
+            self.status_bar.showMessage(f"Loaded: {file_path}")
 
         except Exception as e:
             self.status_bar.showMessage(f"Error loading file: {str(e)}")
             print(f"Error: {e}")
+
+    def display_current_page(self):
+        if not self.image_pages:
+            return
+            
+        image_data = self.image_pages[self.current_page_index]
+        
+        # Normalize and convert to QImage
+        if image_data.ndim == 2:
+            height, width = image_data.shape
+            
+            # Normalize to 8-bit
+            if image_data.dtype != np.uint8:
+                image_data = image_data.astype(np.float32)
+                image_data = (image_data - image_data.min()) / (image_data.max() - image_data.min()) * 255
+                image_data = image_data.astype(np.uint8)
+            
+            bytes_per_line = width
+            q_image = QImage(image_data.data, width, height, bytes_per_line, QImage.Format_Grayscale8)
+            pixmap = QPixmap.fromImage(q_image)
+            
+            self.canvas.set_image(pixmap)
+        elif image_data.ndim == 3:
+             # Handle RGB if loaded
+             height, width, channels = image_data.shape
+             if channels == 3:
+                 bytes_per_line = width * 3
+                 q_image = QImage(image_data.data, width, height, bytes_per_line, QImage.Format_RGB888)
+                 pixmap = QPixmap.fromImage(q_image)
+                 self.canvas.set_image(pixmap)
+        
+        # Restore annotations if we are on Page 0 and have them
+        if self.current_page_index == 0 and self.current_annotations:
+            self.canvas.restore_annotations_state(self.current_annotations)
+        
+    def update_page_controls(self):
+        num_pages = len(self.image_pages)
+        self.page_label.setText(f" Page {self.current_page_index + 1}/{num_pages} ")
+        
+        self.prev_page_action.setEnabled(num_pages > 1 and self.current_page_index > 0)
+        self.next_page_action.setEnabled(num_pages > 1 and self.current_page_index < num_pages - 1)
+        
+    def next_page(self):
+        if self.current_page_index < len(self.image_pages) - 1:
+            self.current_page_index += 1
+            self.display_current_page()
+            self.update_page_controls()
+            
+    def prev_page(self):
+        if self.current_page_index > 0:
+            self.current_page_index -= 1
+            self.display_current_page()
+            self.update_page_controls()
 
     def display_context(self, context):
         text = "<h2>Image Details</h2>"
         if context:
             text += "<ul>"
             for k, v in context.items():
-                text += f"<li><b>{k}:</b> {v}</li>"
+                if k == 'Annotations':
+                    continue # Skip raw annotations
+                elif k == 'Measurements':
+                    text += f"<li><b>{k}:</b><ul>"
+                    for m in v:
+                        # m is dict: type, value, unit, label, color
+                        label = m.get('label', 'Unknown')
+                        m_type = m.get('type', '')
+                        color = m.get('color', '#000000')
+                        
+                        # Create a small color box
+                        color_box = f"<span style='background-color:{color}; border:1px solid #000; display:inline-block; width:10px; height:10px; margin-right:5px;'>&nbsp;&nbsp;&nbsp;</span>"
+                        
+                        text += f"<li>{color_box} {m_type}: {label}</li>"
+                    text += "</ul></li>"
+                else:
+                    text += f"<li><b>{k}:</b> {v}</li>"
             text += "</ul>"
         else:
             text += "<p>No context metadata found.</p>"
         self.metadata_text.setHtml(text)
 
+    def toggle_annotations_visibility(self, visible):
+        self.canvas.set_annotations_visible(visible)
+
     def save_annotated(self):
-        if not self.current_file_path or self.original_image_data is None:
+        if not self.current_file_path or not self.image_pages:
             return
             
         file_path, _ = QFileDialog.getSaveFileName(self, "Save Annotated Image", "", "TIFF Files (*.tif)")
@@ -223,70 +353,100 @@ class MainWindow(QMainWindow):
             return
             
         try:
+            # Use the currently displayed page (or the first page?) as the base for annotation
+            # Usually we annotate the main image (page 0)
+            original_data = self.image_pages[0] # Assume page 0 is the one we annotate
+            
             # Create a QImage from the original data to render annotations on
             # Convert grayscale to RGB
-            if self.original_image_data.dtype == np.uint8:
-                gray_data = self.original_image_data
+            if original_data.dtype == np.uint8:
+                gray_data = original_data
             else:
                 # Normalize if not uint8
-                d = self.original_image_data.astype(np.float32)
+                d = original_data.astype(np.float32)
                 gray_data = ((d - d.min()) / (d.max() - d.min()) * 255).astype(np.uint8)
                 
             height, width = gray_data.shape
-            # Create RGB image (Format_RGB888)
-            # We need to construct it from the grayscale data
-            # QImage(data, w, h, fmt) needs data to be kept alive
-            # Let's convert to RGB numpy array first
-            rgb_data = np.stack((gray_data,)*3, axis=-1)
-            q_img = QImage(rgb_data.data, width, height, width*3, QImage.Format_RGB888)
             
-            # Create a painter to draw annotations on this image
-            # We need to make a copy to draw on, or QPainter might fail on read-only buffer
-            annotated_q_img = q_img.copy()
+            # Ensure contiguous array for QImage
+            if not gray_data.flags['C_CONTIGUOUS']:
+                gray_data = np.ascontiguousarray(gray_data)
             
-            painter = QPainter(annotated_q_img)
-            # We need to align the scene rect with the image
-            # The scene might be larger or offset?
-            # The pixmap item is at (0,0) usually.
-            # Let's render the scene.
-            self.canvas.scene.render(painter)
-            painter.end()
-            
-            # Convert back to numpy
-            ptr = annotated_q_img.constBits()
-            stride = annotated_q_img.bytesPerLine()
-            arr = np.array(ptr).reshape(height, stride)
-            arr = arr[:, :width * 3] # RGB is 3 bytes/pixel
-            annotated_rgb = arr.reshape(height, width, 3)
-            
-            # Save as Multi-page TIFF
-            # Page 0: Annotated RGB (for viewing)
-            # Page 1: Original Grayscale (for data)
-            with tifffile.TiffWriter(file_path) as tif:
-                tif.write(annotated_rgb, photometric='rgb', description="Annotated Image")
-                tif.write(self.original_image_data, photometric='minisblack', description="Original Raw Data")
+            # Prepare Page 0 Data
+            if self.burn_in_checkbox.isChecked():
+                # Burn-in Mode: Render annotations onto image
+                # Create RGB image (Format_RGB888)
+                rgb_data = np.stack((gray_data,)*3, axis=-1)
+                q_img = QImage(rgb_data.data, width, height, width*3, QImage.Format_RGB888)
                 
-            self.status_bar.showMessage(f"Saved: Page 0 (Annotated), Page 1 (Raw) to {file_path}")
+                annotated_q_img = q_img.copy()
+                
+                painter = QPainter(annotated_q_img)
+                try:
+                    painter.setRenderHint(QPainter.Antialiasing)
+                    painter.setRenderHint(QPainter.TextAntialiasing)
+                    painter.setRenderHint(QPainter.SmoothPixmapTransform)
+                    self.canvas.scene.render(painter)
+                finally:
+                    painter.end()
+                
+                # Convert back to numpy
+                ptr = annotated_q_img.constBits()
+                stride = annotated_q_img.bytesPerLine()
+                arr = np.array(ptr).reshape(height, stride)
+                arr = arr[:, :width * 3] # RGB is 3 bytes/pixel
+                page0_data = arr.reshape(height, width, 3)
+                
+                # In Burn-in mode, we DO NOT save annotation state (vectors)
+                annotations_state = None
+                is_burnt_in = True
+                
+            else:
+                # Active Elements Mode: Save Clean Image
+                # Page 0 is just the RGB version of the raw data (clean)
+                # We save vectors in metadata to restore them.
+                rgb_data = np.stack((gray_data,)*3, axis=-1)
+                page0_data = rgb_data
+                
+                annotations_state = self.canvas.get_annotations_state()
+                is_burnt_in = False
+            
+            # Extract original metadata (Zeiss tag 34118)
+            extratags = []
+            with tifffile.TiffFile(self.current_file_path) as tif:
+                page = tif.pages[0]
+                if 34118 in page.tags:
+                    tag = page.tags[34118]
+                    # Read raw bytes
+                    tif.filehandle.seek(tag.valueoffset)
+                    raw_data = tif.filehandle.read(tag.count)
+                    # (code, dtype, count, value, writeonce)
+                    extratags.append((34118, 's', len(raw_data), raw_data, True))
+            
+            # Prepare description with measurements and annotation state
+            measurements = self.canvas.get_measurements_data()
+            
+            description_dict = {
+                "description": "Annotated Image",
+                "measurements": measurements,
+                "is_burnt_in": is_burnt_in
+            }
+            
+            if annotations_state:
+                description_dict["annotations"] = annotations_state
+                
+            description_json = json.dumps(description_dict)
+            
+            # Save as Single-page TIFF
+            # Page 0: Annotated/Clean RGB (for viewing) - with metadata
+            with tifffile.TiffWriter(file_path) as tif:
+                tif.write(page0_data, photometric='rgb', description=description_json, extratags=extratags)
+                
+            self.status_bar.showMessage(f"Saved: Page 0 to {file_path}")
             
         except Exception as e:
             self.status_bar.showMessage(f"Error saving: {str(e)}")
 
     def closeEvent(self, event):
-        # Clean up temp_data directory
-        temp_dir = os.path.join(os.getcwd(), "temp_data")
-        if os.path.exists(temp_dir):
-            try:
-                for filename in os.listdir(temp_dir):
-                    file_path = os.path.join(temp_dir, filename)
-                    try:
-                        if os.path.isfile(file_path) or os.path.islink(file_path):
-                            os.unlink(file_path)
-                        elif os.path.isdir(file_path):
-                            shutil.rmtree(file_path)
-                    except Exception as e:
-                        print(f"Failed to delete {file_path}. Reason: {e}")
-            except Exception as e:
-                print(f"Error cleaning temp_data: {e}")
-        
         event.accept()
 
