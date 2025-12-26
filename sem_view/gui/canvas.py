@@ -208,12 +208,7 @@ class ImageCanvas(QGraphicsView):
         else:
             super().mouseMoveEvent(event)
             
-    def mouseDoubleClickEvent(self, event):
-        if event.button() == Qt.LeftButton and self.mode == self.MODE_POLYGON:
-            # Double click to finish removed, now right click
-            pass
-        else:
-            super().mouseDoubleClickEvent(event)
+
 
     def finish_polygon(self):
         if len(self.polygon_points) < 3:
@@ -230,9 +225,8 @@ class ImageCanvas(QGraphicsView):
             
         # Calculate Area
         poly = QPolygonF(self.polygon_points)
-        # Shoelace formula (QPolygonF doesn't have area() directly exposed in all bindings, but let's check or implement manually)
-        # Actually QPolygonF.boundingRect().width() * ... no, need real area.
-        # Implementation of shoelace:
+
+        # Calculate Area using Shoelace formula
         area_px = 0.0
         for i in range(len(self.polygon_points)):
             j = (i + 1) % len(self.polygon_points)

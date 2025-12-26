@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QMessageBox, QListWidget, QListWidgetItem
+from PySide6.QtWidgets import QMainWindow, QFileDialog, QGraphicsView, QGraphicsScene, QVBoxLayout, QWidget, QLabel, QStatusBar, QToolBar, QDockWidget, QTextEdit, QListWidget, QListWidgetItem
 from PySide6.QtGui import QAction, QPixmap, QImage, QPainter, QColor
 from PySide6.QtCore import Qt
 import tifffile

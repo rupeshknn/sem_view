@@ -77,7 +77,6 @@ def get_metadata_context(file_path):
                     context['Tool'] = get_val('sv_serial_number') or get_val('sv_instrument_id') or "Unknown"
                     
                     # Voltage (EHT)
-                    # User confirmed ap_actualkv is the correct key: ('EHT', 10.0, 'kV')
                     eht = get_val('ap_actualkv') or get_val('ap_eht') or get_val('ap_voltage') or get_val('ap_highvoltage')
                     if eht:
                         context['Beam Voltage'] = f"{eht} kV"
