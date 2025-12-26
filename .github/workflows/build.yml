@@ -42,5 +42,7 @@ jobs:
     - name: Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      shell: bash
       run: |
-        gh release create latest "dist/SEM Viewer.exe" --title "Latest Build" --notes "Automated build triggered by commit message" --clobber
+        gh release delete latest --cleanup-tag --yes || true
+        gh release create latest "dist/SEM Viewer.exe" --title "Latest Build" --notes "Automated build triggered by commit message"
