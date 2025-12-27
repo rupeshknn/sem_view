@@ -216,7 +216,33 @@ class MainWindow(QMainWindow):
             # Load image data
             with tifffile.TiffFile(file_path) as tif:
                 # Load all pages
-                self.image_pages = [page.asarray() for page in tif.pages]
+                self.image_pages = []
+                for page in tif.pages:
+                    data = page.asarray()
+                    
+                    # Check for palette (colormap)
+                    if page.colormap is not None:
+                        # Colormap is typically (3, 2**bps)
+                        # We need to transpose it to (N, 3) for indexing
+                        palette = np.array(page.colormap).T
+                        
+                        # Normalize to 8-bit if necessary (often 16-bit in TIFF)
+                        if palette.max() > 255:
+                            palette = (palette / 256).astype(np.uint8)
+                        else:
+                            palette = palette.astype(np.uint8)
+                            
+                        # Apply palette to indices
+                        # data contains indices, we map them to RGB
+                        if data.ndim == 2:
+                            rgb_data = palette[data]
+                            self.image_pages.append(rgb_data)
+                        else:
+                            # Fallback if dimensions are unexpected
+                            self.image_pages.append(data)
+                    else:
+                        self.image_pages.append(data)
+
                 self.current_page_index = 0
                 
                 # Handle metadata (from first page)

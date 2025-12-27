@@ -43,7 +43,7 @@ class ImageCanvas(QGraphicsView):
         
         # Colors
         self.colors = [
-            QColor("#FFFF00"), # Yellow
+            QColor("#FF0000"), # Red
             QColor("#00FFFF"), # Cyan
             QColor("#FF00FF"), # Magenta
             QColor("#00FF00"), # Lime
@@ -128,7 +128,7 @@ class ImageCanvas(QGraphicsView):
             
         line_item = QGraphicsLineItem(QLineF(start_pos, end_pos))
         pen = QPen(color)
-        pen.setWidth(2)
+        pen.setWidthF(2.6)
         pen.setCosmetic(True)
         line_item.setPen(pen)
         self.scene.addItem(line_item)
@@ -285,7 +285,7 @@ class ImageCanvas(QGraphicsView):
                     # Use current color
                     color = self.colors[self.color_index]
                     pen = QPen(color)
-                    pen.setWidth(2)
+                    pen.setWidthF(2.6)
                     pen.setCosmetic(True)
                     self.current_line.setPen(pen)
                     self.scene.addItem(self.current_line)
@@ -346,7 +346,8 @@ class ImageCanvas(QGraphicsView):
                 self.temp_line = QGraphicsLineItem(QLineF(self.polygon_points[-1], pos))
                 color = self.colors[self.color_index]
                 pen = QPen(color)
-                pen.setStyle(Qt.DashLine)
+                # pen.setStyle(Qt.DashLine) # Changed to Solid (default)
+                pen.setWidth(2)
                 pen.setCosmetic(True)
                 self.temp_line.setPen(pen)
                 self.scene.addItem(self.temp_line)
@@ -414,6 +415,22 @@ class ImageCanvas(QGraphicsView):
         
         # Adjust text items scale to keep them readable
         for item in self.scene.items():
-            if isinstance(item, QGraphicsTextItem):
                 # Reset scale and apply inverse of view scale
                 item.setScale(1.0 / self.transform().m11())
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Escape:
+            if self.mode == self.MODE_POLYGON and self.polygon_points:
+                self.finish_polygon()
+                event.accept()
+                return
+            elif self.mode == self.MODE_MEASURE and self.drawing:
+                # Abort measurement
+                if self.current_line:
+                    self.scene.removeItem(self.current_line)
+                    self.current_line = None
+                self.drawing = False
+                self.start_pos = None
+                event.accept()
+                return
+        super().keyPressEvent(event)

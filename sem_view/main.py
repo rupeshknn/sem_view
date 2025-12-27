@@ -14,15 +14,25 @@ def main():
     app = QApplication(sys.argv)
     
     # Set application icon
-    icon_path = os.path.join(os.path.dirname(__file__), 'gui', 'icon.ico')
+    icon_path = os.path.join(os.path.dirname(__file__), 'gui', 'resources', 'icon.ico')
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
         
     window = MainWindow()
     window.show()
     
-    # Check for command line arguments (file to open)
-    if len(sys.argv) > 1:
+    # Check for command line arguments
+    if "--debug" in sys.argv:
+        # Debug mode: Open temp_scripts folder
+        debug_folder = os.path.abspath("temp_scripts")
+        if os.path.exists(debug_folder):
+             window.populate_file_list(debug_folder)
+             window.file_dock.show()
+             window.status_bar.showMessage(f"Debug: Opened {debug_folder}")
+        else:
+            print(f"Debug: Folder not found at {debug_folder}")
+            
+    elif len(sys.argv) > 1:
         file_path = sys.argv[1]
         # Verify it's a file
         if os.path.isfile(file_path):
