@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
     QGraphicsItem,
     QGraphicsPolygonItem,
 )
-from PySide6.QtCore import Qt, QPointF, QLineF
+from PySide6.QtCore import Qt, QPointF, QLineF, Signal
 from PySide6.QtGui import QPen, QColor, QFont, QPainter, QPolygonF
 
 
@@ -26,8 +26,15 @@ class MeasurementItem:
 
 
 class ImageCanvas(QGraphicsView):
+    MODE_NONE = -1
     MODE_MEASURE = 0
     MODE_POLYGON = 1
+    MODE_AUTO_AREA = 2
+    MODE_AUTO_AREA_ADD = 3
+    MODE_AUTO_AREA_TRIM = 4
+
+    auto_area_requested = Signal(list)
+    auto_area_refine_requested = Signal(int, list)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -77,6 +84,10 @@ class ImageCanvas(QGraphicsView):
         color = self.colors[self.color_index]
         self.color_index = (self.color_index + 1) % len(self.colors)
         return color
+
+    def consume_current_color(self):
+        """Advances the color index, effectively consuming the current color."""
+        self.color_index = (self.color_index + 1) % len(self.colors)
 
     def clear_measurements(self):
         for m in self.measurements:
@@ -323,13 +334,24 @@ class ImageCanvas(QGraphicsView):
                         # Add permanent measurement
                         self.add_measurement_line(self.start_pos, end_pos)
 
-            elif self.mode == self.MODE_POLYGON:
+            elif self.mode in (
+                self.MODE_POLYGON,
+                self.MODE_AUTO_AREA,
+                self.MODE_AUTO_AREA_ADD,
+                self.MODE_AUTO_AREA_TRIM,
+            ):
                 # Add point to polygon
                 pos = self.mapToScene(event.pos())
                 self.polygon_points.append(pos)
 
                 # Update visual polygon
                 color = self.colors[self.color_index]
+                # Use different colors for Add/Trim?
+                if self.mode == self.MODE_AUTO_AREA_ADD:
+                    color = QColor(0, 255, 0)  # Green
+                elif self.mode == self.MODE_AUTO_AREA_TRIM:
+                    color = QColor(255, 0, 0)  # Red
+
                 if not self.current_polygon_item:
                     self.current_polygon_item = QGraphicsPolygonItem(
                         QPolygonF(self.polygon_points)
@@ -345,7 +367,12 @@ class ImageCanvas(QGraphicsView):
                 else:
                     self.current_polygon_item.setPolygon(QPolygonF(self.polygon_points))
         elif event.button() == Qt.RightButton:
-            if self.mode == self.MODE_POLYGON:
+            if self.mode in (
+                self.MODE_POLYGON,
+                self.MODE_AUTO_AREA,
+                self.MODE_AUTO_AREA_ADD,
+                self.MODE_AUTO_AREA_TRIM,
+            ):
                 # Add the current point as the final vertex
                 pos = self.mapToScene(event.pos())
                 self.polygon_points.append(pos)
@@ -365,7 +392,15 @@ class ImageCanvas(QGraphicsView):
             line = self.current_line.line()
             line.setP2(pos)
             self.current_line.setLine(line)
-        elif self.mode == self.MODE_POLYGON and self.polygon_points:
+        elif (
+            self.mode
+            in (
+                self.MODE_POLYGON,
+                self.MODE_AUTO_AREA,
+                self.MODE_AUTO_AREA_ADD,
+                self.MODE_AUTO_AREA_TRIM,
+            )
+        ) and self.polygon_points:
             # Draw temp line from last point to cursor
             if not self.temp_line:
                 self.temp_line = QGraphicsLineItem(QLineF(self.polygon_points[-1], pos))
@@ -400,13 +435,32 @@ class ImageCanvas(QGraphicsView):
             self.scene.removeItem(self.temp_line)
             self.temp_line = None
 
-        # Remove visual polygon (we will recreate it as permanent)
-        if self.current_polygon_item:
-            self.scene.removeItem(self.current_polygon_item)
+        # Handle Auto Area modes
+        if self.mode == self.MODE_AUTO_AREA:
+            # Emit signal and let main window handle it
+            # Do NOT remove the current_polygon_item yet, let MainWindow do it after processing
+            self.auto_area_requested.emit(self.polygon_points)
+            # We keep self.current_polygon_item alive but reset the points list for safety?
+            # Actually, if we reset points, we can't edit it. But we are done with *this* polygon.
+            # The MainWindow will likely clear the canvas or remove this item when replacing it.
+            # So we just detach our reference to it.
             self.current_polygon_item = None
 
-        # Add permanent measurement
-        self.add_measurement_polygon(self.polygon_points)
+        elif self.mode in (self.MODE_AUTO_AREA_ADD, self.MODE_AUTO_AREA_TRIM):
+            self.auto_area_refine_requested.emit(self.mode, self.polygon_points)
+            # Remove the visual aid for the refinement polygon immediately
+            if self.current_polygon_item:
+                self.scene.removeItem(self.current_polygon_item)
+                self.current_polygon_item = None
+
+        else:
+            # Normal measurement
+            # Remove visual polygon (we will recreate it as permanent)
+            if self.current_polygon_item:
+                self.scene.removeItem(self.current_polygon_item)
+                self.current_polygon_item = None
+
+            self.add_measurement_polygon(self.polygon_points)
 
         # Reset
         self.polygon_points = []
@@ -418,12 +472,12 @@ class ImageCanvas(QGraphicsView):
         else:
             super().mouseReleaseEvent(event)
 
+        self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
+        self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
+
     def wheelEvent(self, event):
         zoom_in_factor = 1.25
         zoom_out_factor = 1 / zoom_in_factor
-
-        # Save the scene pos
-        old_pos = self.mapToScene(event.position().toPoint())
 
         # Zoom
         if event.angleDelta().y() > 0:
@@ -433,21 +487,17 @@ class ImageCanvas(QGraphicsView):
 
         self.scale(zoom_factor, zoom_factor)
 
-        # Get the new position
-        new_pos = self.mapToScene(event.position().toPoint())
-
-        # Move scene to old position
-        delta = new_pos - old_pos
-        self.translate(delta.x(), delta.y())
-
         # Adjust text items scale to keep them readable
         for item in self.scene.items():
-            # Reset scale and apply inverse of view scale
-            item.setScale(1.0 / self.transform().m11())
+            if isinstance(item, QGraphicsTextItem):
+                # Reset scale and apply inverse of view scale
+                item.setScale(1.0 / self.transform().m11())
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
-            if self.mode == self.MODE_POLYGON and self.polygon_points:
+            if (
+                self.mode == self.MODE_POLYGON or self.mode == self.MODE_AUTO_AREA
+            ) and self.polygon_points:
                 self.finish_polygon()
                 event.accept()
                 return

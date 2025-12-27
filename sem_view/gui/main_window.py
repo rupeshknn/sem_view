@@ -21,9 +21,10 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QStyle,
     QCheckBox,
+    QApplication,
 )
 from PySide6.QtGui import QAction, QPixmap, QImage, QPainter, QColor
-from PySide6.QtCore import Qt, QSize, QTemporaryDir, QRectF
+from PySide6.QtCore import Qt, QSize, QTemporaryDir, QRectF, QPointF
 import tifffile
 import numpy as np
 import os
@@ -31,6 +32,11 @@ import shutil
 import json
 from .canvas import ImageCanvas
 from ..utils.metadata_parser import get_pixel_scale, get_metadata_context
+from ..utils.analysis import find_overlap_area
+from .auto_area_control import AutoAreaControl
+from skimage.draw import polygon as draw_polygon
+from skimage.measure import find_contours
+from skimage.morphology import binary_closing, binary_opening, disk
 
 
 class MainWindow(QMainWindow):
@@ -46,7 +52,20 @@ class MainWindow(QMainWindow):
 
         # Canvas
         self.canvas = ImageCanvas()
+        self.canvas.auto_area_requested.connect(self.handle_auto_area)
+        self.canvas.auto_area_refine_requested.connect(self.handle_auto_area_refine)
         layout.addWidget(self.canvas)
+
+        # Auto Area Control
+        self.auto_area_control = AutoAreaControl(self)
+        self.auto_area_control.add_requested.connect(self.on_auto_area_add)
+        self.auto_area_control.trim_requested.connect(self.on_auto_area_trim)
+        self.auto_area_control.finish_requested.connect(self.on_auto_area_finish)
+        self.auto_area_control.hide()
+
+        self.current_auto_polygon_points = None  # Store current result for refinement
+        self.current_rough_mask = None  # Store current rough mask for smart refinement
+        self.rough_polygon_item = None  # Store rough polygon to remove later
 
         # Status Bar
         self.status_bar = QStatusBar()
@@ -55,6 +74,7 @@ class MainWindow(QMainWindow):
         self.status_bar.addPermanentWidget(self.scale_label)
 
         # Instructions
+        self.current_folder = None
         self.status_bar.showMessage(
             "Select a tool.  |  🖱️ Middle-drag to pan  |  🔍 Wheel to zoom"
         )
@@ -112,6 +132,18 @@ class MainWindow(QMainWindow):
             lambda: self.set_mode(ImageCanvas.MODE_POLYGON)
         )
         self.toolbar.addAction(self.polygon_action)
+
+        auto_area_icon_path = os.path.join(
+            os.path.dirname(__file__), "resources", "auto_area.png"
+        )
+        self.auto_area_action = QAction("Auto Area", self)
+        if os.path.exists(auto_area_icon_path):
+            self.auto_area_action.setIcon(QPixmap(auto_area_icon_path))
+        self.auto_area_action.setCheckable(True)
+        self.auto_area_action.triggered.connect(
+            lambda: self.set_mode(ImageCanvas.MODE_AUTO_AREA)
+        )
+        self.toolbar.addAction(self.auto_area_action)
 
         self.clear_action = QAction("Clear", self)
         self.clear_action.setIcon(
@@ -208,14 +240,23 @@ class MainWindow(QMainWindow):
         if mode == ImageCanvas.MODE_MEASURE:
             self.measure_action.setChecked(True)
             self.polygon_action.setChecked(False)
+            self.auto_area_action.setChecked(False)
             self.status_bar.showMessage(
                 "📏 Click start ➜ Click end  |  🖱️ Middle-drag to pan"
             )
-        else:
+        elif mode == ImageCanvas.MODE_POLYGON:
             self.measure_action.setChecked(False)
             self.polygon_action.setChecked(True)
+            self.auto_area_action.setChecked(False)
             self.status_bar.showMessage(
                 "⬠ Click to add points  |  Right-click to finish  |  🖱️ Middle-drag to pan"
+            )
+        elif mode == ImageCanvas.MODE_AUTO_AREA:
+            self.measure_action.setChecked(False)
+            self.polygon_action.setChecked(False)
+            self.auto_area_action.setChecked(True)
+            self.status_bar.showMessage(
+                "✨ Draw rough polygon around overlap  |  Right-click to finish"
             )
 
     def open_file(self):
@@ -267,6 +308,19 @@ class MainWindow(QMainWindow):
     def load_image(self, file_path):
         try:
             self.current_file_path = file_path
+
+            # Auto-open folder if needed
+            folder_path = os.path.dirname(file_path)
+            if self.current_folder != folder_path:
+                self.populate_file_list(folder_path)
+                self.file_dock.show()
+
+            # Select the file in the list
+            file_name = os.path.basename(file_path)
+            items = self.file_list.findItems(file_name, Qt.MatchExactly)
+            if items:
+                self.file_list.setCurrentItem(items[0])
+
             # Load image data
             with tifffile.TiffFile(file_path) as tif:
                 # Load all pages
@@ -547,6 +601,169 @@ class MainWindow(QMainWindow):
 
         except Exception as e:
             self.status_bar.showMessage(f"Error saving: {str(e)}")
+
+    def handle_auto_area(self, points):
+        if not self.canvas.pixmap_item:
+            return
+
+        # Store rough polygon item to remove it later
+        # We grab it before canvas clears it (signal is synchronous)
+        self.rough_polygon_item = self.canvas.current_polygon_item
+
+        # Get color from rough polygon
+        rough_color = QColor("#00FF00")  # Default
+        if self.rough_polygon_item:
+            rough_color = self.rough_polygon_item.pen().color()
+
+        # Get image data
+        if not self.image_pages:
+            return
+
+        image_data = self.image_pages[self.current_page_index]
+
+        # Convert points to list of tuples (x, y)
+        poly_points = [(p.x(), p.y()) for p in points]
+
+        self.status_bar.showMessage("Analyzing overlap area...")
+        QApplication.processEvents()  # Force update
+
+        try:
+            # Generate initial rough mask
+            height, width = image_data.shape[:2]
+            poly_y = [p[1] for p in poly_points]
+            poly_x = [p[0] for p in poly_points]
+            rr, cc = draw_polygon(poly_y, poly_x, shape=(height, width))
+            self.current_rough_mask = np.zeros((height, width), dtype=bool)
+            self.current_rough_mask[rr, cc] = True
+
+            # Run analysis with the mask
+            result_polygon = find_overlap_area(image_data, mask=self.current_rough_mask)
+
+            if result_polygon:
+                # Remove rough polygon now
+                if self.rough_polygon_item:
+                    self.canvas.scene.removeItem(self.rough_polygon_item)
+                    self.rough_polygon_item = None
+
+                # Add to canvas with SAME color
+                # Convert back to QPointF
+                q_points = [QPointF(p[0], p[1]) for p in result_polygon]
+
+                self.canvas.add_measurement_polygon(q_points, color=rough_color)
+                # Consume the color so the next measurement uses a different one
+                self.canvas.consume_current_color()
+
+                self.current_auto_polygon_points = result_polygon
+
+                # Show control
+                self.auto_area_control.show()
+                # Center control on screen or near mouse?
+                # self.auto_area_control.move(...)
+
+                self.status_bar.showMessage(
+                    "Overlap area detected! Use floating window to refine."
+                )
+            else:
+                self.status_bar.showMessage("Could not detect overlap area.")
+                # If failed, maybe keep rough polygon?
+                if self.rough_polygon_item:
+                    self.canvas.scene.removeItem(self.rough_polygon_item)
+                    self.rough_polygon_item = None
+
+        except Exception as e:
+            self.status_bar.showMessage(f"Analysis error: {str(e)}")
+            print(f"Analysis error: {e}")
+            if self.rough_polygon_item:
+                self.canvas.scene.removeItem(self.rough_polygon_item)
+                self.rough_polygon_item = None
+
+    def on_auto_area_add(self):
+        self.canvas.set_mode(ImageCanvas.MODE_AUTO_AREA_ADD)
+        self.status_bar.showMessage("Draw a region to ADD to the area.")
+
+    def on_auto_area_trim(self):
+        self.canvas.set_mode(ImageCanvas.MODE_AUTO_AREA_TRIM)
+        self.status_bar.showMessage("Draw a region to REMOVE from the area.")
+
+    def on_auto_area_finish(self):
+        self.auto_area_control.hide()
+        self.auto_area_control.reset()
+        self.canvas.set_mode(ImageCanvas.MODE_NONE)
+        self.current_auto_polygon_points = None
+        self.current_rough_mask = None
+        self.status_bar.showMessage("Auto Area finished.")
+
+    def handle_auto_area_refine(self, mode, points):
+        if self.current_rough_mask is None:
+            return
+
+        # Get image data
+        if not self.image_pages:
+            return
+
+        image_data = self.image_pages[self.current_page_index]
+        height, width = image_data.shape[:2]
+
+        # Refine mask
+        refine_poly_y = [p.y() for p in points]
+        refine_poly_x = [p.x() for p in points]
+        rr_r, cc_r = draw_polygon(refine_poly_y, refine_poly_x, shape=(height, width))
+        refine_mask = np.zeros((height, width), dtype=bool)
+        refine_mask[rr_r, cc_r] = True
+
+        # Update the rough mask (the search area)
+        if mode == ImageCanvas.MODE_AUTO_AREA_ADD:
+            self.current_rough_mask = self.current_rough_mask | refine_mask
+        elif mode == ImageCanvas.MODE_AUTO_AREA_TRIM:
+            self.current_rough_mask = self.current_rough_mask & ~refine_mask
+
+        self.status_bar.showMessage("Re-analyzing with updated area...")
+        QApplication.processEvents()
+
+        try:
+            # Re-run analysis with updated mask
+            result_polygon = find_overlap_area(image_data, mask=self.current_rough_mask)
+
+            if not result_polygon:
+                self.status_bar.showMessage("Result is empty.")
+                # Could clear the polygon or keep previous?
+                # For now, let's keep previous if empty, or clear.
+                # If we clear, we might lose context.
+                # Let's clear for now as it reflects the "empty" result.
+                if self.canvas.measurements:
+                    last_item = self.canvas.measurements[-1]
+                    self.canvas.scene.removeItem(last_item.graphics_item)
+                    self.canvas.scene.removeItem(last_item.text_item)
+                    self.canvas.measurements.pop()
+                self.current_auto_polygon_points = None
+                return
+
+            # Update canvas
+            # Remove previous result.
+            if self.canvas.measurements:
+                last_item = self.canvas.measurements[-1]
+                # Remove it
+                self.canvas.scene.removeItem(last_item.graphics_item)
+                self.canvas.scene.removeItem(last_item.text_item)
+                self.canvas.measurements.pop()
+
+            # Add new one
+            q_points = [QPointF(p[0], p[1]) for p in result_polygon]
+
+            # Get color from last item or default
+            color = QColor("#00FF00")
+            if "last_item" in locals() and last_item:
+                color = last_item.graphics_item.pen().color()
+
+            # Reuse the color since we are refining the same measurement
+            self.canvas.add_measurement_polygon(q_points, color=color)
+            self.current_auto_polygon_points = result_polygon
+
+            self.status_bar.showMessage("Area updated.")
+
+        except Exception as e:
+            self.status_bar.showMessage(f"Refinement error: {str(e)}")
+            print(f"Refinement error: {e}")
 
     def closeEvent(self, event):
         event.accept()
