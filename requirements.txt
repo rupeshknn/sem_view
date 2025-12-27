@@ -3,3 +3,4 @@ tifffile
 numpy
 Pillow
 pyinstaller
+scikit-image

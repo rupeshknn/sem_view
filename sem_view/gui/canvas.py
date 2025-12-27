@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
     QGraphicsItem,
     QGraphicsPolygonItem,
 )
-from PySide6.QtCore import Qt, QPointF, QLineF
+from PySide6.QtCore import Qt, QPointF, QLineF, Signal
 from PySide6.QtGui import QPen, QColor, QFont, QPainter, QPolygonF
 
 
@@ -28,6 +28,9 @@ class MeasurementItem:
 class ImageCanvas(QGraphicsView):
     MODE_MEASURE = 0
     MODE_POLYGON = 1
+    MODE_AUTO_AREA = 2
+
+    auto_area_requested = Signal(list)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -323,7 +326,7 @@ class ImageCanvas(QGraphicsView):
                         # Add permanent measurement
                         self.add_measurement_line(self.start_pos, end_pos)
 
-            elif self.mode == self.MODE_POLYGON:
+            elif self.mode == self.MODE_POLYGON or self.mode == self.MODE_AUTO_AREA:
                 # Add point to polygon
                 pos = self.mapToScene(event.pos())
                 self.polygon_points.append(pos)
@@ -345,7 +348,7 @@ class ImageCanvas(QGraphicsView):
                 else:
                     self.current_polygon_item.setPolygon(QPolygonF(self.polygon_points))
         elif event.button() == Qt.RightButton:
-            if self.mode == self.MODE_POLYGON:
+            if self.mode == self.MODE_POLYGON or self.mode == self.MODE_AUTO_AREA:
                 # Add the current point as the final vertex
                 pos = self.mapToScene(event.pos())
                 self.polygon_points.append(pos)
@@ -365,7 +368,7 @@ class ImageCanvas(QGraphicsView):
             line = self.current_line.line()
             line.setP2(pos)
             self.current_line.setLine(line)
-        elif self.mode == self.MODE_POLYGON and self.polygon_points:
+        elif (self.mode == self.MODE_POLYGON or self.mode == self.MODE_AUTO_AREA) and self.polygon_points:
             # Draw temp line from last point to cursor
             if not self.temp_line:
                 self.temp_line = QGraphicsLineItem(QLineF(self.polygon_points[-1], pos))
@@ -406,7 +409,11 @@ class ImageCanvas(QGraphicsView):
             self.current_polygon_item = None
 
         # Add permanent measurement
-        self.add_measurement_polygon(self.polygon_points)
+        if self.mode == self.MODE_AUTO_AREA:
+            # Emit signal and let main window handle it
+            self.auto_area_requested.emit(self.polygon_points)
+        else:
+            self.add_measurement_polygon(self.polygon_points)
 
         # Reset
         self.polygon_points = []
@@ -418,12 +425,12 @@ class ImageCanvas(QGraphicsView):
         else:
             super().mouseReleaseEvent(event)
 
+        self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
+        self.setResizeAnchor(QGraphicsView.AnchorUnderMouse)
+
     def wheelEvent(self, event):
         zoom_in_factor = 1.25
         zoom_out_factor = 1 / zoom_in_factor
-
-        # Save the scene pos
-        old_pos = self.mapToScene(event.position().toPoint())
 
         # Zoom
         if event.angleDelta().y() > 0:
@@ -433,21 +440,15 @@ class ImageCanvas(QGraphicsView):
 
         self.scale(zoom_factor, zoom_factor)
 
-        # Get the new position
-        new_pos = self.mapToScene(event.position().toPoint())
-
-        # Move scene to old position
-        delta = new_pos - old_pos
-        self.translate(delta.x(), delta.y())
-
         # Adjust text items scale to keep them readable
         for item in self.scene.items():
-            # Reset scale and apply inverse of view scale
-            item.setScale(1.0 / self.transform().m11())
+            if isinstance(item, QGraphicsTextItem):
+                # Reset scale and apply inverse of view scale
+                item.setScale(1.0 / self.transform().m11())
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
-            if self.mode == self.MODE_POLYGON and self.polygon_points:
+            if (self.mode == self.MODE_POLYGON or self.mode == self.MODE_AUTO_AREA) and self.polygon_points:
                 self.finish_polygon()
                 event.accept()
                 return

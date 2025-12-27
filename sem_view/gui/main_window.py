@@ -21,9 +21,10 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QStyle,
     QCheckBox,
+    QApplication,
 )
 from PySide6.QtGui import QAction, QPixmap, QImage, QPainter, QColor
-from PySide6.QtCore import Qt, QSize, QTemporaryDir, QRectF
+from PySide6.QtCore import Qt, QSize, QTemporaryDir, QRectF, QPointF
 import tifffile
 import numpy as np
 import os
@@ -31,6 +32,7 @@ import shutil
 import json
 from .canvas import ImageCanvas
 from ..utils.metadata_parser import get_pixel_scale, get_metadata_context
+from ..utils.analysis import find_overlap_area
 
 
 class MainWindow(QMainWindow):
@@ -46,6 +48,7 @@ class MainWindow(QMainWindow):
 
         # Canvas
         self.canvas = ImageCanvas()
+        self.canvas.auto_area_requested.connect(self.handle_auto_area)
         layout.addWidget(self.canvas)
 
         # Status Bar
@@ -55,6 +58,7 @@ class MainWindow(QMainWindow):
         self.status_bar.addPermanentWidget(self.scale_label)
 
         # Instructions
+        self.current_folder = None
         self.status_bar.showMessage(
             "Select a tool.  |  🖱️ Middle-drag to pan  |  🔍 Wheel to zoom"
         )
@@ -112,6 +116,18 @@ class MainWindow(QMainWindow):
             lambda: self.set_mode(ImageCanvas.MODE_POLYGON)
         )
         self.toolbar.addAction(self.polygon_action)
+
+        auto_area_icon_path = os.path.join(
+            os.path.dirname(__file__), "resources", "auto_area.png"
+        )
+        self.auto_area_action = QAction("Auto Area", self)
+        if os.path.exists(auto_area_icon_path):
+            self.auto_area_action.setIcon(QPixmap(auto_area_icon_path))
+        self.auto_area_action.setCheckable(True)
+        self.auto_area_action.triggered.connect(
+            lambda: self.set_mode(ImageCanvas.MODE_AUTO_AREA)
+        )
+        self.toolbar.addAction(self.auto_area_action)
 
         self.clear_action = QAction("Clear", self)
         self.clear_action.setIcon(
@@ -208,14 +224,23 @@ class MainWindow(QMainWindow):
         if mode == ImageCanvas.MODE_MEASURE:
             self.measure_action.setChecked(True)
             self.polygon_action.setChecked(False)
+            self.auto_area_action.setChecked(False)
             self.status_bar.showMessage(
                 "📏 Click start ➜ Click end  |  🖱️ Middle-drag to pan"
             )
-        else:
+        elif mode == ImageCanvas.MODE_POLYGON:
             self.measure_action.setChecked(False)
             self.polygon_action.setChecked(True)
+            self.auto_area_action.setChecked(False)
             self.status_bar.showMessage(
                 "⬠ Click to add points  |  Right-click to finish  |  🖱️ Middle-drag to pan"
+            )
+        elif mode == ImageCanvas.MODE_AUTO_AREA:
+            self.measure_action.setChecked(False)
+            self.polygon_action.setChecked(False)
+            self.auto_area_action.setChecked(True)
+            self.status_bar.showMessage(
+                "✨ Draw rough polygon around overlap  |  Right-click to finish"
             )
 
     def open_file(self):
@@ -267,6 +292,19 @@ class MainWindow(QMainWindow):
     def load_image(self, file_path):
         try:
             self.current_file_path = file_path
+            
+            # Auto-open folder if needed
+            folder_path = os.path.dirname(file_path)
+            if self.current_folder != folder_path:
+                self.populate_file_list(folder_path)
+                self.file_dock.show()
+            
+            # Select the file in the list
+            file_name = os.path.basename(file_path)
+            items = self.file_list.findItems(file_name, Qt.MatchExactly)
+            if items:
+                self.file_list.setCurrentItem(items[0])
+
             # Load image data
             with tifffile.TiffFile(file_path) as tif:
                 # Load all pages
@@ -548,5 +586,39 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.status_bar.showMessage(f"Error saving: {str(e)}")
 
+    def handle_auto_area(self, points):
+        if not self.canvas.pixmap_item:
+            return
+
+        # Get image data
+        # We need the underlying numpy array. 
+        # In load_image, we stored self.image_pages.
+        if not self.image_pages:
+            return
+        
+        image_data = self.image_pages[self.current_page_index]
+        
+        # Convert points to list of tuples (x, y)
+        poly_points = [(p.x(), p.y()) for p in points]
+
+        self.status_bar.showMessage("Analyzing overlap area...")
+        QApplication.processEvents() # Force update
+
+        try:
+            result_polygon = find_overlap_area(image_data, poly_points)
+            
+            if result_polygon:
+                # Add to canvas
+                # Convert back to QPointF
+                q_points = [QPointF(p[0], p[1]) for p in result_polygon]
+                self.canvas.add_measurement_polygon(q_points, color=QColor("#00FF00")) # Green for success
+                self.status_bar.showMessage("Overlap area detected!")
+            else:
+                self.status_bar.showMessage("Could not detect overlap area.")
+        except Exception as e:
+            self.status_bar.showMessage(f"Analysis error: {str(e)}")
+            print(f"Analysis error: {e}")
+
     def closeEvent(self, event):
         event.accept()
+
