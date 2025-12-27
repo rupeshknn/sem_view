@@ -9,7 +9,7 @@ a = Analysis(
     binaries=[],
     datas=[
         ('..\\sem_view\\gui\\resources\\*.png', 'sem_view/gui/resources'),
-        ('..\\sem_view\\gui\\icon.ico', 'sem_view/gui'),
+        ('..\\sem_view\\gui\\resources\\icon.ico', 'sem_view/gui/resources'),
     ],
     hiddenimports=[],
     hookspath=[],
@@ -43,5 +43,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='..\\sem_view\\gui\\icon.ico'
+    icon='..\\sem_view\\gui\\resources\\icon.ico'
 )
