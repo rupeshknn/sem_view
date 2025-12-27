@@ -30,7 +30,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='SEM Viewer',
+    name='SEM_Viewer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

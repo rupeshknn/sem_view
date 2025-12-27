@@ -36,8 +36,8 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: SEM Viewer
-        path: dist/SEM Viewer.exe
+        name: SEM_Viewer
+        path: dist/SEM_Viewer.exe
 
     - name: Release
       env:
@@ -45,4 +45,4 @@ jobs:
       shell: bash
       run: |
         gh release delete latest --cleanup-tag --yes || true
-        gh release create latest "dist/SEM Viewer.exe" --title "Latest Build" --notes "Automated build triggered by commit message"
+        gh release create latest "dist/SEM_Viewer.exe" --title "Latest Build" --notes "Automated build triggered by commit message"
