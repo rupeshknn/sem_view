@@ -10,19 +10,23 @@ from skimage.morphology import closing, disk, opening
 from skimage.util import img_as_ubyte
 
 
-def find_overlap_area(image_data, polygon_points, seed_point=None):
+def find_overlap_area(image_data, polygon_points=None, seed_point=None, mask=None):
     """
-    Finds the overlap area within a user-defined polygon.
+    Finds the overlap area within a user-defined polygon or mask.
 
     Args:
         image_data (np.ndarray): The image data (grayscale).
-        polygon_points (list of tuple): List of (x, y) points defining the rough ROI.
+        polygon_points (list of tuple, optional): List of (x, y) points defining the rough ROI.
         seed_point (tuple, optional): (x, y) point to help guide segmentation (unused for now).
+        mask (np.ndarray, optional): Boolean mask defining the ROI. Overrides polygon_points.
 
     Returns:
         list of tuple: List of (x, y) points defining the detected overlap polygon.
     """
-    if image_data is None or len(polygon_points) < 3:
+    if image_data is None:
+        return []
+
+    if mask is None and (polygon_points is None or len(polygon_points) < 3):
         return []
 
     # Handle RGB
@@ -35,23 +39,24 @@ def find_overlap_area(image_data, polygon_points, seed_point=None):
 
     height, width = image_gray.shape[:2]
 
-    # Create a mask from the user polygon
-    # skimage.draw.polygon uses (row, col) -> (y, x)
-    poly_y = [p[1] for p in polygon_points]
-    poly_x = [p[0] for p in polygon_points]
-    
-    rr, cc = polygon(poly_y, poly_x, shape=(height, width))
-    mask = np.zeros((height, width), dtype=bool)
-    mask[rr, cc] = True
+    # Create a mask from the user polygon if not provided
+    if mask is None:
+        # skimage.draw.polygon uses (row, col) -> (y, x)
+        poly_y = [p[1] for p in polygon_points]
+        poly_x = [p[0] for p in polygon_points]
+
+        rr, cc = polygon(poly_y, poly_x, shape=(height, width))
+        mask = np.zeros((height, width), dtype=bool)
+        mask[rr, cc] = True
 
     # Extract ROI
     roi = image_gray.copy()
-    # We only care about the area inside the mask. 
-    # Let's set outside to 0 (or mean) to avoid affecting threshold too much, 
+    # We only care about the area inside the mask.
+    # Let's set outside to 0 (or mean) to avoid affecting threshold too much,
     # but Otsu on masked array is better.
-    
+
     roi_values = roi[mask]
-    
+
     if len(roi_values) == 0:
         return []
 
@@ -85,7 +90,7 @@ def find_overlap_area(image_data, polygon_points, seed_point=None):
     # contours are (row, col) -> (y, x)
     result_polygon = [(pt[1], pt[0]) for pt in largest_contour]
 
-    # Simplify polygon slightly to reduce point count if needed? 
+    # Simplify polygon slightly to reduce point count if needed?
     # For now, return "large n polygon" as requested.
-    
+
     return result_polygon

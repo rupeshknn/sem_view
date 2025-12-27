@@ -15,7 +15,7 @@ else:
         page = tif.pages[0]
         print(f"Image Shape: {page.shape}")
         print(f"Image Dtype: {page.dtype}")
-        
+
         # Check for ImageDescription (Tag 270)
         if 270 in page.tags:
             desc = page.tags[270].value

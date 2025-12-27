@@ -1,31 +1,34 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-from PyInstaller.utils.hooks import collect_all
+from PyInstaller.utils.hooks import collect_all, collect_submodules, collect_data_files
 
 datas = []
 binaries = []
-# Explicitly list hidden imports since collect_all failed for skimage/scipy in some envs
-hiddenimports = [
-    'skimage',
+hiddenimports = []
+
+# Collect everything for key packages
+packages = ['skimage', 'scipy', 'imageio', 'networkx', 'lazy_loader', 'tifffile']
+for package in packages:
+    try:
+        tmp_ret = collect_all(package)
+        datas += tmp_ret[0]
+        binaries += tmp_ret[1]
+        hiddenimports += tmp_ret[2]
+    except Exception as e:
+        print(f"Warning: Failed to collect {package}: {e}")
+
+# Explicitly add some that might be missed by collect_all if it fails
+hiddenimports += [
     'skimage.draw',
     'skimage.filters',
     'skimage.measure',
     'skimage.morphology',
     'skimage.util',
-    'scipy',
+    'skimage.io',
     'scipy.ndimage',
     'scipy.signal',
     'scipy.spatial',
 ]
-
-# Try collect_all as well, just in case, but ignore errors/warnings effectively by having explicit imports
-try:
-    tmp_ret = collect_all('skimage')
-    datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-    tmp_ret = collect_all('scipy')
-    datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-except Exception:
-    pass
 
 block_cipher = None
 root_dir = os.path.abspath(os.path.join(SPECPATH, '..'))
