@@ -1,3 +1,10 @@
+"""
+Main window implementation for the SEM Viewer.
+
+This module defines the MainWindow class, which manages the primary user interface,
+including the image canvas, toolbars, dock widgets, and file handling logic.
+"""
+
 from PySide6.QtWidgets import (
     QMainWindow,
     QFileDialog,

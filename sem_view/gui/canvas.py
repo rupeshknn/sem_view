@@ -1,3 +1,11 @@
+"""
+Image canvas and graphics items for the SEM Viewer.
+
+This module provides the ImageCanvas class for displaying images and handling
+user interactions (zooming, panning, measuring), as well as custom QGraphicsItem
+classes for drawing measurements and annotations.
+"""
+
 from PySide6.QtWidgets import (
     QGraphicsView,
     QGraphicsScene,

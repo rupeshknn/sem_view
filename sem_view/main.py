@@ -1,3 +1,10 @@
+"""
+Main module for the SEM Viewer application.
+
+This module handles application initialization, command-line argument parsing,
+and setting up the main window.
+"""
+
 import sys
 import os
 import ctypes
@@ -7,6 +14,19 @@ from .gui.main_window import MainWindow
 
 
 def main():
+    """
+    Main entry point for the application.
+
+    This function performs the following steps:
+    1. Sets the AppUserModelID for Windows taskbar grouping.
+    2. Initializes the QApplication.
+    3. Sets the application window icon.
+    4. Creates and shows the main window.
+    5. Handles command-line arguments:
+       - `--debug`: Opens the `temp_scripts` folder in the file browser.
+       - `<file_path>`: Loads the specified image file.
+    6. Starts the application event loop.
+    """
     # Set AppUserModelID for Windows taskbar icon
     if os.name == "nt":
         myappid = "rupeshknn.sem_view.viewer.1.0"  # arbitrary string

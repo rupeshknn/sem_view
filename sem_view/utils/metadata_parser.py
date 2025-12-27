@@ -1,3 +1,10 @@
+"""
+TIFF metadata parsing utilities.
+
+This module contains functions to extract and parse metadata from TIFF files,
+specifically focusing on Zeiss SEM metadata tags and ImageDescription JSON data.
+"""
+
 import tifffile
 import json
 
