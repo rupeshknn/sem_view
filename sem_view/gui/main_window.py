@@ -32,11 +32,21 @@ import shutil
 import json
 from .canvas import ImageCanvas
 from ..utils.metadata_parser import get_pixel_scale, get_metadata_context
-from ..utils.analysis import find_overlap_area
-from .auto_area_control import AutoAreaControl
-from skimage.draw import polygon as draw_polygon
-from skimage.measure import find_contours
-from skimage.morphology import binary_closing, binary_opening, disk
+try:
+    from ..utils.analysis import find_overlap_area
+    from .auto_area_control import AutoAreaControl
+    from skimage.draw import polygon as draw_polygon
+    from skimage.measure import find_contours
+    from skimage.morphology import binary_closing, binary_opening, disk
+    AUTO_AREA_AVAILABLE = True
+except ImportError:
+    AUTO_AREA_AVAILABLE = False
+    find_overlap_area = None
+    draw_polygon = None
+    find_contours = None
+    binary_closing = None
+    binary_opening = None
+    disk = None
 
 
 class MainWindow(QMainWindow):
@@ -140,9 +150,17 @@ class MainWindow(QMainWindow):
         if os.path.exists(auto_area_icon_path):
             self.auto_area_action.setIcon(QPixmap(auto_area_icon_path))
         self.auto_area_action.setCheckable(True)
-        self.auto_area_action.triggered.connect(
-            lambda: self.set_mode(ImageCanvas.MODE_AUTO_AREA)
-        )
+        
+        if AUTO_AREA_AVAILABLE:
+            self.auto_area_action.triggered.connect(
+                lambda: self.set_mode(ImageCanvas.MODE_AUTO_AREA)
+            )
+        else:
+            self.auto_area_action.setEnabled(False)
+            self.auto_area_action.setToolTip("Auto Area not available in this version")
+            # Also maybe set status tip
+            self.auto_area_action.setStatusTip("Auto Area not available in this version")
+            
         self.toolbar.addAction(self.auto_area_action)
 
         self.clear_action = QAction("Clear", self)

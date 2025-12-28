@@ -1,13 +1,14 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 from PyInstaller.utils.hooks import collect_all, collect_submodules, collect_data_files
+import os
 
 datas = []
 binaries = []
 hiddenimports = []
 
 # Collect everything for key packages
-packages = ['tifffile']
+packages = ['skimage', 'scipy', 'imageio', 'networkx', 'lazy_loader', 'tifffile']
 for package in packages:
     try:
         tmp_ret = collect_all(package)
@@ -18,7 +19,17 @@ for package in packages:
         print(f"Warning: Failed to collect {package}: {e}")
 
 # Explicitly add some that might be missed by collect_all if it fails
-hiddenimports += []
+hiddenimports += [
+    'skimage.draw',
+    'skimage.filters',
+    'skimage.measure',
+    'skimage.morphology',
+    'skimage.util',
+    'skimage.io',
+    'scipy.ndimage',
+    'scipy.signal',
+    'scipy.spatial',
+]
 
 block_cipher = None
 root_dir = os.path.abspath(os.path.join(SPECPATH, '..'))
@@ -50,7 +61,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='SEM_Viewer',
+    name='SEM_Viewer_Plus',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
