@@ -32,9 +32,10 @@ import shutil
 import json
 from .canvas import ImageCanvas
 from ..utils.metadata_parser import get_pixel_scale, get_metadata_context
+from .auto_area_control import AutoAreaControl
+
 try:
     from ..utils.analysis import find_overlap_area
-    from .auto_area_control import AutoAreaControl
     from skimage.draw import polygon as draw_polygon
     from skimage.measure import find_contours
     from skimage.morphology import binary_closing, binary_opening, disk

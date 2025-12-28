@@ -7,7 +7,8 @@ binaries = []
 hiddenimports = []
 
 # Collect everything for key packages
-packages = ['tifffile']
+# Collect everything for key packages
+packages = []
 for package in packages:
     try:
         tmp_ret = collect_all(package)
@@ -35,7 +36,7 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=['skimage', 'scipy', 'imageio', 'networkx', 'lazy_loader'],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
     cipher=block_cipher,

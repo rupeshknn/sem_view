@@ -21,3 +21,4 @@ dist/
 
 # Temporary Scripts
 temp_scripts/
+.agent/

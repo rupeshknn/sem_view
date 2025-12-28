@@ -8,7 +8,7 @@ binaries = []
 hiddenimports = []
 
 # Collect everything for key packages
-packages = ['skimage', 'scipy', 'imageio', 'networkx', 'lazy_loader', 'tifffile']
+packages = ['tifffile']
 for package in packages:
     try:
         tmp_ret = collect_all(package)
@@ -19,17 +19,7 @@ for package in packages:
         print(f"Warning: Failed to collect {package}: {e}")
 
 # Explicitly add some that might be missed by collect_all if it fails
-hiddenimports += [
-    'skimage.draw',
-    'skimage.filters',
-    'skimage.measure',
-    'skimage.morphology',
-    'skimage.util',
-    'skimage.io',
-    'scipy.ndimage',
-    'scipy.signal',
-    'scipy.spatial',
-]
+hiddenimports += []
 
 block_cipher = None
 root_dir = os.path.abspath(os.path.join(SPECPATH, '..'))
